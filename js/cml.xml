@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<TrackingUnitEvent>								
+	<TrackingUnitEventName>LAMI</TrackingUnitEventName>					
+	<TrackingUnitEventDate>2014-03-22T07:28:23.000Z</TrackingUnitEventDate>					
+	<PositionStructure>							
+		<LocalFacilityCode>Fabrica de Tubos 3 (FAT3)</LocalFacilityCode>				
+		<LocalLineCode>TM Tb HRM PQF - 7\</LocalLineCode>				
+		<LocalPositionCode>TM Tb HRM PQF - 7\</LocalPositionCode>				
+	</PositionStructure>							
+	<TUStructure>							
+		<TrackingUnitInCode>						
+			<InCode>230</InCode>			
+		</TrackingUnitInCode>						
+		<TrackingUnitOutCode>10215</TrackingUnitOutCode>				
+		<TrackingUnitInType>Billet</TrackingUnitInType>				
+		<TrackingUnitOutType>Pipe</TrackingUnitOutType>				
+		<PassesNumber>0</PassesNumber>				
+		<TransformationFlag>TRUE</TransformationFlag>				
+		<EventVariableData>						
+			<EventVariableName>ProductionOrder</EventVariableName>			
+			<EventVariableValue>237598</EventVariableValue>			
+			<EventVariableName>HeatNumber</EventVariableName>			
+			<EventVariableValue>70819</EventVariableValue>			
+			<EventVariableName>LocalPipeNumber</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>LengthPipe</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<VarUOM>m</VarUOM>			
+			<EventVariableName>TenarisPipeNumber</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>NominalWeight</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<VarUOM>?</VarUOM>			
+			<EventVariableName>SourceProcess</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>LogDate</EventVariableName>			
+			<EventVariableValue>2015-09-24</EventVariableValue>			
+			<EventVariableName>LogHour</EventVariableName>			
+			<EventVariableValue>17:40</EventVariableValue>			
+			<EventVariableName>LogUser</EventVariableName>			
+			<EventVariableValue>60034233</EventVariableValue>			
+			<EventVariableName>URC</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>DataSetVersion</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>RFID</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+			<EventVariableName>DataSetURCString</EventVariableName>			
+			<EventVariableValue>?</EventVariableValue>			
+		</EventVariableData>						
+		<EventAdditionalData>					
+			<EventVariableName>CurveTestVariable</EventVariableName>		
+			<EventVariableValue>				
+				<Name>Temperatura por tiempo</Name>	
+				<Xaxis>			
+					<Name>Temperatura</Name>
+					<UOM>F</UOM>
+				</Xaxis>			
+				<Yaxis>			
+					<Name>Tiempo</Name>
+					<UOM>hh:mm</UOM>
+				</Yaxis>			
+				<Values>72.33|7:00</Values>	
+				<Values>39.56|9:05</Values>	
+				<Values>97.52|11:10</Values>	
+				<Values>96.27|12:15</Values>	
+				<Values>105.9|14:20</Values>	
+				<Values>116.49|15:25</Values>	
+				<Values>128.14|17:30</Values>	
+				<Values>140.95|18:35</Values>	
+				<Values>255.05|19:40</Values>	
+				<Values>187.56|21:50</Values>	
+				<Values>206.38|22:55</Values>	
+				<Values>227.02|23:00</Values>	
+				<Values>249.72|23:50</Values>	
+			</EventVariableValue>				
+		</EventAdditionalData>
+	</TUStructure>							
+</TrackingUnitEvent>								
