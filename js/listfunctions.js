@@ -5,7 +5,7 @@
  */
 $(document).ready(function () {
     $('input:radio').click(function () {
-    
-    window.location.href = 'http://localhost/StockTracker/index.php/portafolios/show_editform/'+$(this).val();
+     
+    window.location.href = 'http://localhost/stocktraking/index.php/portafolios/show_editform/'+$(this).val();
     })
 });

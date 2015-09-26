@@ -96,6 +96,7 @@ class Portafolios extends CI_Controller {
         $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $selected_portafolios[0]->fechacreacion);
         $data['btnguardar'] = array('guardar' => 'Guardar');
         $data['idportafolios'] = array('idportafolios' => $selected_portafolios[0]->idportafolios);
+        $data['idportafolios_delete'] = $selected_portafolios[0]->idportafolios;
         $this->call_views('portafolios/form', $data);
     }
 
@@ -137,6 +138,10 @@ class Portafolios extends CI_Controller {
     }
 
     public function delete($p_Portafolios) {
+        $this->load->helper(array('form', 'url'));
+        $this->load->model('Portafolios_Model','',TRUE);
+        $this->Portafolios_Model->delete_Portafolios_Model($p_Portafolios);
+        redirect('portafolios', 'refresh');
         
     }
 
