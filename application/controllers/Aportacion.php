@@ -86,6 +86,49 @@ class Aportacion extends CI_Controller {
 
     public function edit() {
         
+        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->library('form_validation');
+        $this->load->library('calendar');
+
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
+        $this->form_validation->set_rules('fecha', 'Fecha', 'required');
+        $this->form_validation->set_rules('cantidad', 'Cantidad', 'required');
+        $this->form_validation->set_rules('idoperacion', 'ID operacion', 'required');
+        
+        if ($this->form_validation->run() == FALSE) {
+            $data['error'] = $this->form_validation->error_array();
+            $data['accion'] = 'aportacion/add';
+            $data['labelcantidad'] = 'Cantidad: ';
+            $data['idoperacion'] = array('idoperacion'=>$this->form_validation->set_value('idoperacion'));
+            $data['cantidad'] = array('name' => 'cantidad', 'value' => $this->form_validation->set_value('cantidad'));
+            $data['labelfecha'] = 'Fecha: ';
+            $data['fecha'] = array('name' => 'fecha', 'value' => $this->form_validation->set_value('fecha'));
+            $data['labelportafolios'] = "Portafolios: ";
+            $data['portafolios'] = $this->get_portafolios();
+            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
+            $data['btnguardar'] = array('guardar' => 'Guardar');
+
+            $this->call_views('aportaciones/form', $data);
+        } else {
+            
+           echo $p_fecha         = $_POST['fecha'];
+           echo $p_cantidad      = $_POST['cantidad'];
+           echo $p_portafolios   = $_POST['portafolios'];
+           echo $p_idoperacion   = $_POST['idoperacion'];
+            if($p_portafolios === 0){
+                
+            }else{
+            
+            $this->load->model('Operaciones_Model', '', TRUE);
+            $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion,'AP',$p_cantidad,
+                                                               $p_fecha,$p_portafolios);
+
+            }
+            
+            
+            redirect('aportacion', 'refresh');
+        }
+        
     }
 
     public function show_addform() {
@@ -106,7 +149,28 @@ class Aportacion extends CI_Controller {
         $this->call_views('aportaciones/form', $data);
     }
 
-    public function show_editform() {
+    public function show_editform($p_idoperacion) {
+        
+        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->library('form_validation');
+        
+        $this->load->model('Operaciones_Model', '', TRUE);
+        $result = $this->Operaciones_Model->find_by_id($p_idoperacion);
+
+        $time = now('America/Mexico_City');
+        
+        $data['idoperacion'] = array('idoperacion'=>$result[0]->idaportaciones);
+        $data['accion'] = 'aportacion/edit';
+        $data['labelcantidad'] = 'Cantidad: ';
+        $data['cantidad'] = array('name' => 'cantidad','value'=>$result[0]->cantidad);
+        $data['labelfecha'] = 'Fecha: ';
+        $data['fecha'] = array('name' => 'fecha', 'value' => $result[0]->fecha);
+        $data['labelportafolios'] = "Portafolios: ";
+        $data['portafolios'] = $this->get_portafolios();
+        $data['selectedPortafolios'] =$result[0]->portafolios;
+        $data['btnguardar'] = array('guardar' => 'Guardar');
+       
+        $this->call_views('aportaciones/form', $data);
         
     }
 

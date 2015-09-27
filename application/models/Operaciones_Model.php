@@ -49,7 +49,7 @@ class Operaciones_Model extends CI_Model {
 
     public function find_by_id($p_idaportacion) {
 
-        $this->db->from('aportaciones');
+        $this->db->from('operaciones');
         $this->db->where('idaportaciones', $p_idaportacion);
         $query = $this->db->get();
         return $query->result();
@@ -64,10 +64,12 @@ class Operaciones_Model extends CI_Model {
         $this->db->insert('operaciones', $this);
     }
 
-    public function update_Operaciones_Model($p_idaportacion, $p_monto = null, $p_fecha = null, $p_portafolios = null
+    public function update_Operaciones_Model($p_idaportacion, $p_tipooperacion,$p_cantidad = null, 
+                                             $p_fecha = null, $p_portafolios = null
+                                             
     ) {
-        if ($p_monto != null) {
-            $this->monto = $p_monto;
+        if ($p_cantidad != null) {
+            $this->cantidad = $p_cantidad;
         }
 
         if ($p_fecha != null) {
@@ -77,8 +79,8 @@ class Operaciones_Model extends CI_Model {
         if ($p_portafolios != null) {
             $this->portafolios = $p_portafolios;
         }
-
-        $this->db->update('aportaciones', $this, array('idaportaciones' => $p_idaportacion));
+        $this->tipooperacion = $p_tipooperacion;
+        $this->db->update('operaciones', $this, array('idaportaciones' => $p_idaportacion));
     }
 
 }

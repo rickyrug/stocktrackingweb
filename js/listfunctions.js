@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('input:radio').click(function () {
+    $('#idportafolios').click(function () {
      
     window.location.href = 'http://localhost/stocktraking/index.php/portafolios/show_editform/'+$(this).val();
-    })
+    });
 });

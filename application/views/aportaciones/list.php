@@ -4,15 +4,14 @@
     );
     
     echo ul($links);
-    $this->table->set_heading('ID', 'Portafolios', 'Cantidad','Fecha');
+    $this->table->set_heading('ID', 'Portafolios', 'Cantidad','Fecha','');
     foreach ($results as $result) {
    
-        $row = array(form_radio(array('name'=>'idaportaciones','id'=>'idaportaciones',
-                                         'value'=>$result->idaportaciones
-                                        )), 
+        $row = array($result->idaportaciones, 
                      $result->portafolios,
                      $result->cantidad,
-                     $result->fecha
+                     $result->fecha, 
+                     anchor('aportacion/show_editform/'.$result->idaportaciones,'Edit')
             );
         
         $this->table->add_row($row);        
