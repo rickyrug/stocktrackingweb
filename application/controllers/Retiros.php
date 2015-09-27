@@ -7,21 +7,21 @@
  */
 
 /**
- * Description of Aportacion
+ * Description of Retiros
  *
  * @author rickyrug
  */
-class Aportacion extends CI_Controller {
-
-    public function index() {
+class Retiros extends CI_Controller{
+    
+     public function index() {
         $this->load->model('Operaciones_Model', '', TRUE);
-        $results = $this->Operaciones_Model->get_Operaciones_Model('AP');
+        $results = $this->Operaciones_Model->get_Operaciones_Model('RT');
         $data['results'] = $results;
 
         $this->load->helper(array('form', 'url', 'html'));
         $this->load->library('form_validation');
         $this->load->library('table');
-        $this->call_views('aportaciones/list', $data);
+        $this->call_views('retiros/list', $data);
     }
 
     public function add() {
@@ -36,7 +36,7 @@ class Aportacion extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'aportacion/add';
+            $data['accion'] = 'retiros/add';
             $data['labelcantidad'] = 'Cantidad: ';
             $data['cantidad'] = array('name' => 'cantidad', 'value' => $this->form_validation->set_value('cantidad'));
             $data['labelfecha'] = 'Fecha: ';
@@ -46,7 +46,7 @@ class Aportacion extends CI_Controller {
             $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
             $data['btnguardar'] = array('guardar' => 'Guardar');
 
-            $this->call_views('aportaciones/form', $data);
+            $this->call_views('retiros/form', $data);
         } else {
 
             $p_fecha         = $_POST['fecha'];
@@ -59,12 +59,12 @@ class Aportacion extends CI_Controller {
             
             $this->load->model('Operaciones_Model', '', TRUE);
             $this->Operaciones_Model->insert_Operaciones_Model($p_cantidad,$p_fecha, $p_portafolios, 
-                                                               'AP');
+                                                               'RT');
 
             }
             
             
-            redirect('aportacion', 'refresh');
+            redirect('retiros', 'refresh');
         }
         
     }
@@ -100,7 +100,7 @@ class Aportacion extends CI_Controller {
         
         if ($this->form_validation->run() == FALSE) {
             $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'aportacion/edit';
+            $data['accion'] = 'retiros/edit';
             $data['labelcantidad'] = 'Cantidad: ';
             $data['idoperacion'] = array('idoperacion'=>$this->form_validation->set_value('idoperacion'));
             $data['cantidad'] = array('name' => 'cantidad', 'value' => $this->form_validation->set_value('cantidad'));
@@ -111,7 +111,7 @@ class Aportacion extends CI_Controller {
             $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
             $data['btnguardar'] = array('guardar' => 'Guardar');
 
-            $this->call_views('aportaciones/form', $data);
+            $this->call_views('retiros/form', $data);
         } else {
             
            $p_fecha         = $_POST['fecha'];
@@ -122,10 +122,10 @@ class Aportacion extends CI_Controller {
                 
             }else{
             $this->load->model('Operaciones_Model', '', TRUE);
-            $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion,'AP',$p_cantidad,
+            $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion,'RT',$p_cantidad,
                                                                $p_fecha,$p_portafolios);
             }   
-            redirect('aportacion', 'refresh');
+            redirect('retiros', 'refresh');
         }
     }
 
@@ -135,7 +135,7 @@ class Aportacion extends CI_Controller {
 
         $time = now('America/Mexico_City');
 
-        $data['accion'] = 'aportacion/add';
+        $data['accion'] = 'retiros/add';
         $data['labelcantidad'] = 'Cantidad: ';
         $data['cantidad'] = array('name' => 'cantidad');
         $data['labelfecha'] = 'Fecha: ';
@@ -144,7 +144,7 @@ class Aportacion extends CI_Controller {
         $data['portafolios'] = $this->get_portafolios();
         $data['btnguardar'] = array('guardar' => 'Guardar');
        
-        $this->call_views('aportaciones/form', $data);
+        $this->call_views('retiros/form', $data);
     }
 
     public function show_editform($p_idoperacion) {
@@ -158,7 +158,7 @@ class Aportacion extends CI_Controller {
         $time = now('America/Mexico_City');
         
         $data['idoperacion'] = array('idoperacion'=>$result[0]->idaportaciones);
-        $data['accion'] = 'aportacion/edit';
+        $data['accion'] = 'retiros/edit';
         $data['labelcantidad'] = 'Cantidad: ';
         $data['cantidad'] = array('name' => 'cantidad','value'=>$result[0]->cantidad);
         $data['labelfecha'] = 'Fecha: ';
@@ -168,7 +168,7 @@ class Aportacion extends CI_Controller {
         $data['selectedPortafolios'] =$result[0]->portafolios;
         $data['btnguardar'] = array('guardar' => 'Guardar');
        
-        $this->call_views('aportaciones/form', $data);
+        $this->call_views('retiros/form', $data);
         
     }
 
@@ -184,4 +184,5 @@ class Aportacion extends CI_Controller {
         return $var_portafolios_list;
     }
 
+    
 }
