@@ -156,4 +156,5 @@ class Portafolios extends CI_Controller {
         $this->load->view('footer');
     }
 
+   
 }

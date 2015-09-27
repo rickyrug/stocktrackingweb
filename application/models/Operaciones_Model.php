@@ -11,32 +11,35 @@
  *
  * @author rickyrug
  */
-class Aportaciones_Model extends CI_Model {
+class Operaciones_Model extends CI_Model {
 
-    public $monto;
+    public $cantidad;
     public $fecha;
     public $portafolios;
+    public $tipooperacion;
 
     function __construct() {
         parent::__construct();
     }
 
-    public function get_Aportaciones_Model() {
+    public function get_Operaciones_Model($p_tipo) {
 
-     //   $this->db->select('aportaciones.idaportaciones, aportaciones.monto, aportaciones.fecha,
-     //                      portafolios.nombre as portafolios,portafolios.idportafolios');
-        $this->db->from('aportaciones');
-  //      $this->db->join('portafolios', 'aportaciones.portafolios = portafolios.idportafolios');
+        $this->db->select('operaciones.idaportaciones, operaciones.cantidad, operaciones.fecha,
+                           portafolios.nombre as portafolios,portafolios.idportafolios');
+        $this->db->select('cantidad');
+        $this->db->from('operaciones');
+        $this->db->join('portafolios', 'operaciones.portafolios = portafolios.idportafolios');
+        $this->db->where('tipooperacion',$p_tipo);
         $query = $this->db->get();
         return $query->result();
     }
 
-    public function delete_Aportaciones_Model($p_idAportacion) {
+    public function delete_Operaciones_Model($p_idAportacion) {
         $this->db->where_in('idaportaciones', $p_idAportacion);
         $this->db->delete('aportaciones');
     }
 
-    public function get_Portafolios_Model_fields($p_fields, $p_idportafolios) {
+    public function get_Operaciones_Model_fields($p_fields, $p_idportafolios) {
         $this->db->select($p_fields);
         $this->db->from('aportaciones');
         $this->db->where('portafolios', $p_idportafolios);
@@ -52,17 +55,16 @@ class Aportaciones_Model extends CI_Model {
         return $query->result();
     }
 
-    public function insert_aportaciones_Model($p_monto, $p_fecha, $p_portafolios) {
-        $this->monto = $p_monto;
-        $this->fecha = $p_fecha;
-        $this->portafolios = $p_portafolios;
+    public function insert_Operaciones_Model($p_cantidad, $p_fecha, $p_portafolios,$p_tipooperacion) {
+        $this->cantidad      = $p_cantidad;
+        $this->fecha         = $p_fecha;
+        $this->portafolios   = $p_portafolios;
+        $this->tipooperacion = $p_tipooperacion;
 
-        if ($this->db->insert('aportaciones', $this)) {
-            return true;
-        }
+        $this->db->insert('operaciones', $this);
     }
 
-    public function update_aportaciones_Model($p_idaportacion, $p_monto = null, $p_fecha = null, $p_portafolios = null
+    public function update_Operaciones_Model($p_idaportacion, $p_monto = null, $p_fecha = null, $p_portafolios = null
     ) {
         if ($p_monto != null) {
             $this->monto = $p_monto;

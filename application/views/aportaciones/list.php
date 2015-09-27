@@ -1,17 +1,17 @@
     <?php
     $links = array(
-        anchor('aportaciones/show_addform', 'Agregar')
+        anchor('aportacion/show_addform', 'Agregar')
     );
     
     echo ul($links);
-    $this->table->set_heading('ID', 'Portafolios', 'Monto','Fecha');
+    $this->table->set_heading('ID', 'Portafolios', 'Cantidad','Fecha');
     foreach ($results as $result) {
    
         $row = array(form_radio(array('name'=>'idaportaciones','id'=>'idaportaciones',
                                          'value'=>$result->idaportaciones
                                         )), 
                      $result->portafolios,
-                     $result->monto,
+                     $result->cantidad,
                      $result->fecha
             );
         
