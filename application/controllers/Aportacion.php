@@ -81,7 +81,10 @@ class Aportacion extends CI_Controller {
     }
 
     public function delete($p_idaportacion) {
-        
+        $this->load->helper(array('url'));
+        $this->load->model('Operaciones_Model', '', TRUE);
+        $this->Operaciones_Model->delete_Operaciones_Model($p_idaportacion);
+        redirect('aportacion', 'refresh');
     }
 
     public function edit() {
@@ -111,24 +114,19 @@ class Aportacion extends CI_Controller {
             $this->call_views('aportaciones/form', $data);
         } else {
             
-           echo $p_fecha         = $_POST['fecha'];
-           echo $p_cantidad      = $_POST['cantidad'];
-           echo $p_portafolios   = $_POST['portafolios'];
-           echo $p_idoperacion   = $_POST['idoperacion'];
+           $p_fecha         = $_POST['fecha'];
+           $p_cantidad      = $_POST['cantidad'];
+           $p_portafolios   = $_POST['portafolios'];
+           $p_idoperacion   = $_POST['idoperacion'];
             if($p_portafolios === 0){
                 
             }else{
-            
             $this->load->model('Operaciones_Model', '', TRUE);
             $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion,'AP',$p_cantidad,
                                                                $p_fecha,$p_portafolios);
-
-            }
-            
-            
+            }   
             redirect('aportacion', 'refresh');
         }
-        
     }
 
     public function show_addform() {

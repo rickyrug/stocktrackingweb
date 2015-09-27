@@ -36,7 +36,7 @@ class Operaciones_Model extends CI_Model {
 
     public function delete_Operaciones_Model($p_idAportacion) {
         $this->db->where_in('idaportaciones', $p_idAportacion);
-        $this->db->delete('aportaciones');
+        $this->db->delete('operaciones');
     }
 
     public function get_Operaciones_Model_fields($p_fields, $p_idportafolios) {

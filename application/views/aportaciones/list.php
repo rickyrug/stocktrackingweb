@@ -11,7 +11,8 @@
                      $result->portafolios,
                      $result->cantidad,
                      $result->fecha, 
-                     anchor('aportacion/show_editform/'.$result->idaportaciones,'Edit')
+                     anchor('aportacion/show_editform/'.$result->idaportaciones,'Edit'),
+                     anchor('aportacion/delete/'.$result->idaportaciones,'Borrar')
             );
         
         $this->table->add_row($row);        
