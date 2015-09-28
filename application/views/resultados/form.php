@@ -16,6 +16,7 @@ echo form_label($labelfecha);
 echo form_input($fecha);
 
 echo form_label($labelportafolios);
+
 if (isset($selectedPortafolios)) {
     echo form_dropdown('portafolios', $portafolios, $selectedPortafolios);
 } else {
