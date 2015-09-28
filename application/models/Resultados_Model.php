@@ -23,12 +23,12 @@ class Resultados_Model extends CI_Model{
         parent::__construct();
     }
     
-    public function get_resultados_model($p_portafolios){
+    public function get_resultados_model(){
         $this->db->select('resultados.idresultados, resultados.fecha, portafolios.nombre as portafolios,
        resultados.valor,resultados.profit,resultados.rendimiento, portafolios.idportafolios');
         $this->db->from('resultados');
-        $this->db->join('portafolios', 'resultados.protafolios = portafolios.idportafolios');
-        $this->db->where('portafolios',$p_portafolios);
+        $this->db->join('portafolios', 'resultados.portafolios = portafolios.idportafolios');
+//        $this->db->where('portafolios',$p_portafolios);
         $query = $this->db->get();
         return $query->result();
         

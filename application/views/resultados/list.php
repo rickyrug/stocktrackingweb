@@ -1,6 +1,6 @@
     <?php
     $links = array(
-        anchor('aportacion/show_addform', 'Agregar')
+        anchor('resultados/show_addform', 'Agregar')
     );
     
     echo ul($links);
@@ -13,8 +13,8 @@
                      $result->valor,
                      $result->profit,
                      $result->rendimiento,
-                     anchor('aportacion/show_editform/'.$result->idaportaciones,'Edit'),
-                     anchor('aportacion/delete/'.$result->idaportaciones,'Borrar')
+                     anchor('resultados/show_editform/'.$result->idresultados,'Edit'),
+                     anchor('resultados/delete/'.$result->idresultados,'Borrar')
             );
         
         $this->table->add_row($row);        

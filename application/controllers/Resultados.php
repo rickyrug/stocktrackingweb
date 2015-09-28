@@ -13,15 +13,15 @@
  */
 class Resultados extends CI_Controller{
     
-    public function index($p_portafolios){
+    public function index(){
         
         $this->load->model('Resultados_Model', '', TRUE);
-        $results = $this->Resultados_Model->get_resultados_model($p_portafolios);
+        $results = $this->Resultados_Model->get_resultados_model();
         $data['results'] = $results;
 
         $this->load->helper(array('form', 'url', 'html'));
-        $this->load->library('form_validation');
-        $this->load->library('table');
+        $this->load->library(array('form_validation','table'));
+        
         $this->call_views('resultados/list', $data);
     }
     
@@ -29,8 +29,15 @@ class Resultados extends CI_Controller{
         
     }
     
-    private function call_views($p_views, $p_data){
-        
+    private function call_views($p_view, $p_data){
+        $this->load->view('header');
+        if ($p_data == null) {
+            $this->load->view($p_view);
+        } else {
+            $this->load->view($p_view, $p_data);
+        }
+
+        $this->load->view('footer');
     }
     
     public function delete($p_idresultado){
