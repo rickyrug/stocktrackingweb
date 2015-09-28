@@ -45,7 +45,7 @@ class Resultados extends CI_Controller {
             $data['portafolios'] = $this->get_portafolios();
             $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
             $data['labelvalor'] = 'Valor: ';
-            $data['valor'] = array('name' => 'valor','value' => $this->form_validation->set_value('valor'));
+            $data['valor'] = array('name' => 'valor','id'=>'valor','value' => $this->form_validation->set_value('valor'));
             $data['labelprofit'] = 'Profit: ';
             $data['profit'] = array('name' => 'profit','value' => $this->form_validation->set_value('profit'));
             $data['labelrendimiento'] = 'Rendimiento: ';
@@ -86,7 +86,10 @@ class Resultados extends CI_Controller {
     }
 
     public function delete($p_idresultado) {
-        
+         $this->load->helper(array('url'));
+         $this->load->model('Resultados_Model', '', TRUE);
+         $this->Resultados_Model->delete_resultados_model($p_idresultado);
+         redirect('resultados', 'refresh');
     }
 
     public function edit() {
@@ -117,11 +120,11 @@ class Resultados extends CI_Controller {
         $data['labelportafolios'] = "Portafolios: ";
         $data['portafolios'] = $this->get_portafolios();
         $data['labelvalor'] = 'Valor: ';
-        $data['valor'] = array('name' => 'valor');
+        $data['valor'] = array('name' => 'valor','id'=>'valor');
         $data['labelprofit'] = 'Profit: ';
-        $data['profit'] = array('name' => 'profit');
+        $data['profit'] = array('name' => 'profit','id'=>'profit');
         $data['labelrendimiento'] = 'Rendimiento: ';
-        $data['rendimiento'] = array('name' => 'rendimiento');
+        $data['rendimiento'] = array('name' => 'rendimiento','id'=>'rendimiento');
         $data['btnguardar'] = array('guardar' => 'Guardar');
 
         $this->call_views('resultados/form', $data);
