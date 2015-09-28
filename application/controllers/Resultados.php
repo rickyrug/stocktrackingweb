@@ -140,7 +140,7 @@ class Resultados extends CI_Controller {
         $data['fecha'] = array('name' => 'fecha', 'value' => $result[0]->fecha);
         $data['labelportafolios'] = "Portafolios: ";
         $data['portafolios'] = $this->get_portafolios();
-        $data['selectedPortafolios'] = $result[0]->portafolios;
+        $data['selectedPortafolios'] = $result[0]->idportafolios;
         $data['labelvalor'] = 'Valor: ';
         $data['valor'] = array('name' => 'valor','id'=>'valor','value'=>$result[0]->valor);
         $data['labelprofit'] = 'Profit: ';
