@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('input[name=valor]').focusout(function () {
+    $('input[name=profit]').dblclick(function () {
        
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();
@@ -22,7 +22,7 @@ $(document).ready(function () {
         
     });
     
-    $('input[name=profit]').focusout(function(){
+    $('input[name=rendimiento]').dblclick(function(){
         
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();

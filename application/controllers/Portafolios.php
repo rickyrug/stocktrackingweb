@@ -26,7 +26,7 @@ class Portafolios extends CI_Controller {
 
     public function add() {
 
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url', 'html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -52,18 +52,25 @@ class Portafolios extends CI_Controller {
             $this->call_views('portafolios/form', $data);
         } else {
 
-            $p_nombre = $_POST['nombre'];
-            $p_valorinicial = $_POST['valorinicial'];
-            $p_fechacreacion = $_POST['fechacreacion'];
+            $p_nombre           = $_POST['nombre'];
+            $p_valorinicial     = $_POST['valorinicial'];
+            $p_fechacreacion    = $_POST['fechacreacion'];
+            $p_portafoliospadre = $_POST['portafolios'];
+            
+            if($p_portafoliospadre == 0){
+                $p_portafoliospadre = null;
+            }
+            
             $this->load->model('Portafolios_Model', '', TRUE);
-            $this->Portafolios_Model->insert_Portafolios_Model($p_nombre, $p_valorinicial, $p_fechacreacion);
+            $this->Portafolios_Model->insert_Portafolios_Model($p_nombre, $p_valorinicial, 
+                                                               $p_fechacreacion,$p_portafoliospadre);
 
             redirect('portafolios', 'refresh');
         }
     }
 
     public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
 
         $time = now('America/Mexico_City');
@@ -84,7 +91,7 @@ class Portafolios extends CI_Controller {
 
     public function show_editform($p_idportafolios) {
 
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
 
         $this->load->model('Portafolios_Model', '', TRUE);
@@ -104,13 +111,13 @@ class Portafolios extends CI_Controller {
         $data['idportafolios_delete'] = $selected_portafolios[0]->idportafolios;
         $data['labelportafoliospadre'] = 'Portafolios Padre: ';
         $data['portafolios'] = $this->get_portafolios();
-        $data['selectedPortafolios'] = null;
+        $data['selectedPortafolios'] = $selected_portafolios[0]->portafoliospadre;
         $this->call_views('portafolios/form', $data);
     }
 
     public function edit() {
 
-        $this->load->helper(array('form', 'url'));
+        $this->load->helper(array('form', 'url','html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -140,8 +147,15 @@ class Portafolios extends CI_Controller {
             $p_nombre = $_POST['nombre'];
             $p_valorinicial = $_POST['valorinicial'];
             $p_fechacreacion = $_POST['fechacreacion'];
+            $p_portafoliospadre = $_POST['portafolios'];
+            
+            if($p_portafoliospadre == 0){
+                $p_portafoliospadre = null;
+            }
             $this->load->model('Portafolios_Model', '', TRUE);
-            $this->Portafolios_Model->update_Portafolios_Model($p_idportafolios, $p_nombre, $p_valorinicial, $p_fechacreacion
+            $this->Portafolios_Model->update_Portafolios_Model($p_idportafolios, $p_nombre, 
+                                                               $p_valorinicial, $p_fechacreacion,
+                                                               $p_portafoliospadre
             );
 
             redirect('portafolios', 'refresh');
