@@ -91,7 +91,51 @@ class Resultados extends CI_Controller {
     }
 
     public function edit() {
-        
+        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->library(array('form_validation', 'table'));
+
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
+        $this->form_validation->set_rules('fecha', 'Fecha', 'required');
+        $this->form_validation->set_rules('valor', 'Valor', 'required');
+        $this->form_validation->set_rules('profit', 'Profit', 'required');
+        $this->form_validation->set_rules('rendimiento', 'Rendimiento', 'required');
+        $this->form_validation->set_rules('idresultados', 'ID resultados', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $data['accion'] = 'resultados/edit';
+            $data['labelfecha'] = 'Fecha: ';
+            $data['fecha'] = array('name' => 'fecha', 'value' => $this->form_validation->set_value('fecha'));
+            $data['labelportafolios'] = "Portafolios: ";
+            $data['portafolios'] = $this->get_portafolios();
+            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
+            $data['labelvalor'] = 'Valor: ';
+            $data['valor'] = array('name' => 'valor', 'id' => 'valor', 'value' => $this->form_validation->set_value('valor'));
+            $data['labelprofit'] = 'Profit: ';
+            $data['profit'] = array('name' => 'profit', 'id' => 'profit', 'value' => $this->form_validation->set_value('profit'));
+            $data['labelrendimiento'] = 'Rendimiento: ';
+            $data['rendimiento'] = array('name' => 'rendimiento', 'id' => 'rendimiento', 'value' => $this->form_validation->set_value('rendimiento'));
+            $data['btnguardar'] = array('guardar' => 'Guardar');
+            $data['idresultados'] = array('idresultados'=>$this->form_validation->set_value('idresultados'));
+            $this->call_views('resultados/form', $data);
+        } else {
+            $p_fecha        = $_POST['fecha'];
+            $p_portafolios  = $_POST['portafolios'];
+            $p_valor        = $_POST['valor'];
+            $p_profit       = $_POST['profit'];
+            $p_rendimiento  = $_POST['rendimiento'];
+            $p_idresultados = $_POST['idresultados'];
+            if($p_portafolios == 0){
+                echo 'Portafolios field is required';
+            }else{
+                
+            $this->load->model('Resultados_Model', '', TRUE);
+            $this->Resultados_Model->update_resultados($p_idresultados,$p_fecha,
+                                                       $p_valor,$p_profit,$p_rendimiento,
+                                                       $p_portafolios);
+            redirect('resultados','refresh');
+            }
+        }
     }
 
     private function get_portafolios() {
@@ -148,7 +192,7 @@ class Resultados extends CI_Controller {
         $data['labelrendimiento'] = 'Rendimiento: ';
         $data['rendimiento'] = array('name' => 'rendimiento','id'=>'rendimiento','value'=>$result[0]->rendimiento);
         $data['btnguardar'] = array('guardar' => 'Guardar');
-
+        $data['idresultados'] = array('idresultados'=>$result[0]->idresultados);
         $this->call_views('resultados/form', $data);
         
        

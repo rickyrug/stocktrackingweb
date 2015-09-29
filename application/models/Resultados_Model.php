@@ -91,6 +91,6 @@ class Resultados_Model extends CI_Model{
             $this->portafolios =$p_portafolios;
         }
         
-        $this->db->update('trackingstocks', $this, array('idresultados' => $p_idresultado));
+        $this->db->update('resultados', $this, array('idresultados' => $p_idresultado));
     }
 }
