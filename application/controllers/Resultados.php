@@ -158,7 +158,7 @@ class Resultados extends CI_Controller {
 
         $data['accion'] = 'resultados/add';
         $data['labelfecha'] = 'Fecha: ';
-        $data['fecha'] = array('name' => 'fecha', 'value' => unix_to_human($time, TRUE, 'EU'));
+        $data['fecha'] = array('name' => 'fecha','value' => unix_to_human($time, TRUE, 'EU'));
         $data['labelportafolios'] = "Portafolios: ";
         $data['portafolios'] = $this->get_portafolios();
         $data['labelvalor'] = 'Valor: ';
@@ -204,13 +204,32 @@ class Resultados extends CI_Controller {
          $var_sum_aportaciones = $this->Operaciones_Model->get_sum_operacion('AP',$p_portafolios,$p_fecha);
          $var_sum_retiros      = $this->Operaciones_Model->get_sum_operacion('RT',$p_portafolios,$p_fecha);
          
-       $var_profit = $p_valor - (
-                     $var_portafolios[0]->valorinicial + 
-                     $var_sum_aportaciones[0]->total + 
-                     $var_sum_retiros[0]->total 
-                                );
+       $var_profit = $p_valor -$this->calculate_valorinicial($var_portafolios[0]->valorinicial,
+                                $var_sum_aportaciones[0]->total,
+                                $var_sum_retiros[0]->total );
+
        echo $var_profit;
          
+    }
+    
+    public function calculate_rendimiento($p_portafolios, $p_valor, $p_fecha){
+         $this->load->model('Operaciones_Model', '', TRUE);
+         $this->load->model('Portafolios_Model', '', TRUE);
+         $var_portafolios      = $this->Portafolios_Model->find_by_id($p_portafolios);
+         $var_sum_aportaciones = $this->Operaciones_Model->get_sum_operacion('AP',$p_portafolios,$p_fecha);
+         $var_sum_retiros      = $this->Operaciones_Model->get_sum_operacion('RT',$p_portafolios,$p_fecha);
+         $var_valorinicial = $this->calculate_valorinicial($var_portafolios[0]->valorinicial, 
+                                                           $var_sum_aportaciones[0]->total, 
+                                                           $var_sum_retiros[0]->total);
+
+       $var_rendimiento = ($p_valor - $var_valorinicial) / $var_valorinicial;
+      
+       echo $var_rendimiento;
+         
+    }
+    
+    private function calculate_valorinicial($p_valorinicialportafolios,$p_aportaciones,$p_retiros){
+        return $p_valorinicialportafolios + $p_aportaciones - $p_retiros;
     }
 
 }

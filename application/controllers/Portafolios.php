@@ -33,7 +33,8 @@ class Portafolios extends CI_Controller {
         $this->form_validation->set_rules('nombre', 'Nombre de portafolios', 'required');
         $this->form_validation->set_rules('valorinicial', 'Valor inicial', 'required');
         $this->form_validation->set_rules('fechacreacion', 'Fecha creacion', 'required');
-
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
+        
         if ($this->form_validation->run() == FALSE) {
             $data['error'] = $this->form_validation->error_array();
             $data['accion'] = 'portafolios/add';
@@ -44,7 +45,9 @@ class Portafolios extends CI_Controller {
             $data['labelfechacreacion'] = 'Fecha creación: ';
             $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $this->form_validation->set_value('fechacreacion'));
             $data['btnguardar'] = array('guardar' => 'Guardar');
-
+            $data['labelportafoliospadre'] = 'Portafolios Padre: ';
+            $data['portafolios'] = $this->get_portafolios();
+            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
 
             $this->call_views('portafolios/form', $data);
         } else {
@@ -72,6 +75,8 @@ class Portafolios extends CI_Controller {
         $data['valorinicial'] = array('name' => 'valorinicial');
         $data['labelfechacreacion'] = 'Fecha creación: ';
         $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => unix_to_human($time, TRUE, 'EU'));
+        $data['portafolios'] = $this->get_portafolios();
+        $data['labelportafoliospadre'] = 'Portafolios Padre: ';
         $data['btnguardar'] = array('guardar' => 'Guardar');
 
         $this->call_views('portafolios/form', $data);
@@ -97,6 +102,9 @@ class Portafolios extends CI_Controller {
         $data['btnguardar'] = array('guardar' => 'Guardar');
         $data['idportafolios'] = array('idportafolios' => $selected_portafolios[0]->idportafolios);
         $data['idportafolios_delete'] = $selected_portafolios[0]->idportafolios;
+        $data['labelportafoliospadre'] = 'Portafolios Padre: ';
+        $data['portafolios'] = $this->get_portafolios();
+        $data['selectedPortafolios'] = null;
         $this->call_views('portafolios/form', $data);
     }
 
@@ -110,7 +118,8 @@ class Portafolios extends CI_Controller {
         $this->form_validation->set_rules('valorinicial', 'Valor inicial', 'required');
         $this->form_validation->set_rules('fechacreacion', 'Fecha creacion', 'required');
         $this->form_validation->set_rules('idportafolios', 'idportafolios', 'required');
-
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
+        
         if ($this->form_validation->run() == FALSE) {
             $data['error'] = $this->form_validation->error_array();
             $data['accion'] = 'portafolios/edit';
@@ -122,7 +131,9 @@ class Portafolios extends CI_Controller {
             $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $this->form_validation->set_value('fechacreacion'));
             $data['btnguardar'] = array('guardar' => 'Guardar');
             $data['idportafolios'] = array('idportafolios' => $this->form_validation->set_value('idportafolios'));
-
+             $data['labelportafoliospadre'] = 'Portafolios Padre: ';
+            $data['portafolios'] = $this->get_portafolios();
+            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
             $this->call_views('portafolios/form', $data);
         } else {
             $p_idportafolios = $_POST['idportafolios'];
@@ -156,5 +167,16 @@ class Portafolios extends CI_Controller {
         $this->load->view('footer');
     }
 
+    private function get_portafolios() {
+        $var_portafolios_list = array();
+        $this->load->model('Portafolios_Model', '', TRUE);
+        $results = $this->Portafolios_Model->get_Portafolios_Model_fields('idportafolios,nombre');
+        $var_portafolios_list[] = "";
+        foreach ($results as $portafolios) {
+            $var_portafolios_list[$portafolios->idportafolios] = $portafolios->nombre;
+        }
+
+        return $var_portafolios_list;
+    }
    
 }

@@ -17,6 +17,12 @@ echo form_label($labelvalorinicial);
 echo form_input($valorinicial);
 echo form_label($labelfechacreacion);
 echo form_input($fechacreacion);
+echo form_label($labelportafoliospadre);
+if (isset($selectedPortafolios)) {
+    echo form_dropdown('portafolios', $portafolios, $selectedPortafolios);
+} else {
+    echo form_dropdown('portafolios', $portafolios);
+}
 echo form_submit($btnguardar['guardar'], $btnguardar['guardar']);
 
 
