@@ -26,7 +26,7 @@ class Aportacion extends CI_Controller {
 
     public function add() {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -89,7 +89,7 @@ class Aportacion extends CI_Controller {
 
     public function edit() {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -130,7 +130,7 @@ class Aportacion extends CI_Controller {
     }
 
     public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
 
         $time = now('America/Mexico_City');
@@ -149,7 +149,7 @@ class Aportacion extends CI_Controller {
 
     public function show_editform($p_idoperacion) {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         
         $this->load->model('Operaciones_Model', '', TRUE);

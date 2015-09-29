@@ -16,7 +16,10 @@ and open the template in the editor.
             echo link_tag('bootstrap/css/dashboard.css');
         ?>
         <script src="http://localhost/StockTracker/js/jquery/jquery.js"></script>
+        <script src="http://localhost/StockTracker/js/jquery/jquery.tablesorter.min.js"></script>
+         <script src="http://localhost/StockTracker/js/jquery/jquery.tablesorter.widgets.min"></script>
         <script src="http://localhost/StockTracker/js/listfunctions.js"></script>
+        
     </head>
     <body>
     <body>

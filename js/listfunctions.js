@@ -39,4 +39,14 @@ $(document).ready(function () {
             xmlhttp.send();
 
     });
+    
+    $(function(){
+		$('table').tablesorter({
+			
+			usNumberFormat : false,
+			sortReset      : true,
+			sortRestart    : true,
+                        widgets: ['zebra', 'filter']
+		});
+	});
 });

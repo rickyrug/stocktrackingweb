@@ -16,8 +16,9 @@ class Retiros extends CI_Controller{
      public function index() {
         $this->load->model('Operaciones_Model', '', TRUE);
         $results = $this->Operaciones_Model->get_Operaciones_Model('RT');
-        $data['results'] = $results;
-
+        $data['results']     = $results;
+        $data['title']       = 'Filtering';
+        $data['portafolios'] = $this->get_portafolios();
         $this->load->helper(array('form', 'url', 'html'));
         $this->load->library('form_validation');
         $this->load->library('table');
@@ -26,7 +27,7 @@ class Retiros extends CI_Controller{
 
     public function add() {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -89,7 +90,7 @@ class Retiros extends CI_Controller{
 
     public function edit() {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         $this->load->library('calendar');
 
@@ -130,7 +131,7 @@ class Retiros extends CI_Controller{
     }
 
     public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
 
         $time = now('America/Mexico_City');
@@ -149,7 +150,7 @@ class Retiros extends CI_Controller{
 
     public function show_editform($p_idoperacion) {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         
         $this->load->model('Operaciones_Model', '', TRUE);
