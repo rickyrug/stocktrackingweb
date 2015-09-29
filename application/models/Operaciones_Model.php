@@ -82,11 +82,12 @@ class Operaciones_Model extends CI_Model {
         $this->db->update('operaciones', $this, array('idaportaciones' => $p_idaportacion));
     }
 
-    public function get_sum_operacion($p_tipo, $p_idportafolios){
-        $this->db->select("SUM(cantidad)");
+    public function get_sum_operacion($p_tipo, $p_idportafolios,$p_fecha){
+        $this->db->select("SUM(cantidad) as total");
         $this->db->from('operaciones');
         $this->db->where('portafolios', $p_idportafolios);
         $this->db->where('tipooperacion', $p_tipo);
+        $this->db->where('fecha <=',$p_fecha);
         $query = $this->db->get();
         return $query->result();
     }

@@ -194,8 +194,23 @@ class Resultados extends CI_Controller {
         $data['btnguardar'] = array('guardar' => 'Guardar');
         $data['idresultados'] = array('idresultados'=>$result[0]->idresultados);
         $this->call_views('resultados/form', $data);
-        
-       
+
+    }
+    
+    public function calculate_profit($p_portafolios, $p_valor, $p_fecha){
+         $this->load->model('Operaciones_Model', '', TRUE);
+         $this->load->model('Portafolios_Model', '', TRUE);
+         $var_portafolios      = $this->Portafolios_Model->find_by_id($p_portafolios);
+         $var_sum_aportaciones = $this->Operaciones_Model->get_sum_operacion('AP',$p_portafolios,$p_fecha);
+         $var_sum_retiros      = $this->Operaciones_Model->get_sum_operacion('RT',$p_portafolios,$p_fecha);
+         
+       $var_profit = $p_valor - (
+                     $var_portafolios[0]->valorinicial + 
+                     $var_sum_aportaciones[0]->total + 
+                     $var_sum_retiros[0]->total 
+                                );
+       echo $var_profit;
+         
     }
 
 }
