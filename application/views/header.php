@@ -67,7 +67,7 @@ and open the template in the editor.
                     <ul class="nav nav-sidebar">
                         <li><h4>Resultados</h4></li>
                         <li><?php echo anchor("resultados",'Gestion'); ?></li>
-                        <li><a href="">Reportes</a></li>
+                        <li><?php echo anchor('reportes', 'Reportes') ?></li>
                     </ul>
                 </div>
                 <!--END SIDE BAR -->

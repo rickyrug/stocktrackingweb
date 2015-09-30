@@ -1,5 +1,3 @@
-<div class="row">
-    <div class="col-md-9">
    <?php
     echo '<h1>Retiros</h1>';
     $tmpl = array ( 'table_open'  => '<table id="tablalista" border="1" cellpadding="2" cellspacing="1" class="table table-hover">' );
@@ -23,9 +21,3 @@
     echo $this->table->generate();
  
     ?>
-    </div>
-    <div class="col-md-3">
-        <h2><?php echo $title; ?></h2>
-        <?php echo form_dropdown('portafolios', $portafolios); ?>
-    </div>
-</div> 
