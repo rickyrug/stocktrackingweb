@@ -65,7 +65,7 @@ class Resultados extends CI_Controller {
             $this->load->model('Resultados_Model', '', TRUE);
             $this->Resultados_Model->insert_resultados($p_fecha,$p_portafolios,
                                                        $p_valor,$p_profit,$p_rendimiento);
-            redirect('resultados','refresh');
+            redirect('resultados/show_addform','refresh');
             }
             
             

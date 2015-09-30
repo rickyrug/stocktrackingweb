@@ -95,12 +95,39 @@ class Resultados_Model extends CI_Model{
         $this->db->update('resultados', $this, array('idresultados' => $p_idresultado));
     }
     
-    public function get_max_min($p_fechaini,$p_fechafinal,$p_portafolios){
-        $this->db->select("month(fecha), year(fecha), max(valor),min(valor)");
+    public function get_max_min($field,$p_fechaini,$p_fechafinal,$p_portafolios){
+        $this->db->select("month(fecha) as month, year(fecha) as year, max(".$field.") as max,min(".$field.") as min");
         $this->db->from('resultados');
         $this->db->where('portafolios',$p_portafolios);
-        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where('fecha >=',$p_fechaini);
+        $this->db->where('fecha <=',$p_fechafinal);
+        $this->db->group_by(array("month(fecha)", "year(fecha)"));
+        $this->db->order_by("year(fecha)","month(fecha)");
         $query = $this->db->get();
-        $results = $query->result();
+        return $query->result();
+    }
+    
+    public function get_value_open($field,$p_fechaini,$p_fechafinal,$p_portafolios){
+        $this->db->select($field.' as valueopen');
+        $this->db->from('resultados');
+        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where('fecha >=',$p_fechaini);
+        $this->db->where('fecha <=',$p_fechafinal);
+        $this->db->order_by("fecha");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    public function get_value_close($field,$p_fechaini,$p_fechafinal,$p_portafolios){
+        $this->db->select($field.' as valueclose');
+        $this->db->from('resultados');
+        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where('fecha >=',$p_fechaini);
+        $this->db->where('fecha <=',$p_fechafinal);
+        $this->db->order_by("fecha",'desc');
+        $this->db->limit(1);
+        $query = $this->db->get();
+        return $query->result();
     }
 }
