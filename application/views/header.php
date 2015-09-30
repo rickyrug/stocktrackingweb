@@ -15,10 +15,10 @@ and open the template in the editor.
             echo link_tag('bootstrap/css/bootstrap.min.css');
             echo link_tag('bootstrap/css/dashboard.css');
         ?>
-        <script src="http://localhost/StockTracker/js/jquery/jquery.js"></script>
-        <script src="http://localhost/StockTracker/js/jquery/jquery.tablesorter.min.js"></script>
-         <script src="http://localhost/StockTracker/js/jquery/jquery.tablesorter.widgets.min"></script>
-        <script src="http://localhost/StockTracker/js/listfunctions.js"></script>
+        <script src="<?php echo base_url().'js/jquery/jquery.js'; ?>"></script>
+        <script src="<?php echo base_url().'js/jquery/jquery.tablesorter.min.js'; ?>"></script>
+        <script src="<?php echo base_url().'js/jquery/jquery.tablesorter.widgets.min.js'; ?>"></script>
+        <script src="<?php echo base_url().'js/listfunctions.js'; ?>"></script>
         
     </head>
     <body>
@@ -71,4 +71,5 @@ and open the template in the editor.
                     </ul>
                 </div>
                 <!--END SIDE BAR -->
-                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">    
+                <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">  
+                    

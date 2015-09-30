@@ -1,4 +1,5 @@
     <?php
+    echo base_url();
     echo '<h1>Aportaciones</h1>';
     $tmpl = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1" class="table table-hover">' );
     $this->table->set_template($tmpl);
