@@ -25,7 +25,7 @@ class Resultados extends CI_Controller {
 
     public function add() {
 
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library(array('form_validation', 'table'));
 
         $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
@@ -91,7 +91,7 @@ class Resultados extends CI_Controller {
     }
 
     public function edit() {
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library(array('form_validation', 'table'));
 
         $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
@@ -151,7 +151,7 @@ class Resultados extends CI_Controller {
     }
 
     public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
 
         $time = now('America/Mexico_City');
@@ -174,7 +174,7 @@ class Resultados extends CI_Controller {
 
     public function show_editform($p_idresultado) {
         
-        $this->load->helper(array('form', 'url', 'date'));
+        $this->load->helper(array('form', 'url', 'date','html'));
         $this->load->library('form_validation');
         $this->load->model('Resultados_Model', '', TRUE);
         $result = $this->Resultados_Model->find_by_id($p_idresultado);
