@@ -17,7 +17,7 @@ $(document).ready(function () {
                    
                 }
             }
-            xmlhttp.open("GET", "http://localhost/StockTracker/index.php/resultados/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); // first try `../index.php/example` ( extension depends if you enable/disable url rewrite in apache.conf ) , if this won't work then try base_url/index.php/example ( where you can specify base_url by static or with CodeIgniter helpher function )
+            xmlhttp.open("GET", "http://localhost/stocktraking/index.php/resultados/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); // first try `../index.php/example` ( extension depends if you enable/disable url rewrite in apache.conf ) , if this won't work then try base_url/index.php/example ( where you can specify base_url by static or with CodeIgniter helpher function )
             xmlhttp.send();
         
     });
@@ -35,18 +35,18 @@ $(document).ready(function () {
                    
                 }
             }
-            xmlhttp.open("GET", "http://localhost/StockTracker/index.php/resultados/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
+            xmlhttp.open("GET", "http://localhost/stocktraking/index.php/resultados/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
 
     });
     
-    $(function(){
-		$('table').tablesorter({
-			
-			usNumberFormat : false,
-			sortReset      : true,
-			sortRestart    : true,
-                        widgets: ['zebra', 'filter']
-		});
-	});
+//    $(function(){
+//		$('table').tablesorter({
+//			
+//			usNumberFormat : false,
+//			sortReset      : true,
+//			sortRestart    : true,
+//                        widgets: ['zebra', 'filter']
+//		});
+//	});
 });

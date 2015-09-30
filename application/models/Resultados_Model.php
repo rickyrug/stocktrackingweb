@@ -29,6 +29,7 @@ class Resultados_Model extends CI_Model{
         $this->db->from('resultados');
         $this->db->join('portafolios', 'resultados.portafolios = portafolios.idportafolios');
 //        $this->db->where('portafolios',$p_portafolios);
+        $this->db->order_by("fecha", "desc"); 
         $query = $this->db->get();
         return $query->result();
         
@@ -51,7 +52,7 @@ class Resultados_Model extends CI_Model{
     }
     
     public function get_Operaciones_Model_fields($p_fields, $p_idportafolios){
-         $this->db->select($p_fields);
+        $this->db->select($p_fields);
         $this->db->from('resultados');
         $this->db->join('portafolios', 'resultados.protafolios = portafolios.idportafolios');
         $this->db->where('portafolios',$p_idportafolios);
@@ -92,5 +93,14 @@ class Resultados_Model extends CI_Model{
         }
         
         $this->db->update('resultados', $this, array('idresultados' => $p_idresultado));
+    }
+    
+    public function get_max_min($p_fechaini,$p_fechafinal,$p_portafolios){
+        $this->db->select("month(fecha), year(fecha), max(valor),min(valor)");
+        $this->db->from('resultados');
+        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where('portafolios',$p_portafolios);
+        $query = $this->db->get();
+        $results = $query->result();
     }
 }
