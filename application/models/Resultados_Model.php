@@ -102,7 +102,8 @@ class Resultados_Model extends CI_Model{
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
         $this->db->group_by(array("month(fecha)", "year(fecha)"));
-        $this->db->order_by("year(fecha)","month(fecha)");
+        $this->db->order_by("year(fecha)");
+        $this->db->order_by("month(fecha)");
         $query = $this->db->get();
         return $query->result();
     }

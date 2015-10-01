@@ -11,17 +11,18 @@ function drawChart() {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             datos = JSON.parse(xmlhttp.responseText);
-
+             console.log(datos);
             var data = google.visualization.arrayToDataTable(datos, true);
             var options = {
                 legend: 'none',
                 title: 'Text,',
                 height: 700,
+                width:  1024, 
                
                 vAxis:{
                     
                     gridlines: {
-                    count: 25,
+                    count: 30,
                         },
                  
                 },
@@ -37,7 +38,7 @@ function drawChart() {
             chart.draw(data, options);
         }
     };
-    xmlhttp.open("GET", "http://localhost/stocktraking/index.php/reportes/generate_data_candel/valor/2014-11-01/2015-11-30/6", true);
+    xmlhttp.open("GET", "http://localhost/StockTracker/index.php/reportes/generate_data_candel/valor/2015-01-01/2015-12-31/12", true);
     xmlhttp.send();
 
 
