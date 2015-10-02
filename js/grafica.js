@@ -1,5 +1,5 @@
 google.load("visualization", "1", {packages: ["corechart"]});
-google.setOnLoadCallback(drawChart);
+
 function drawChart() {
 
     var xmlhttp = new XMLHttpRequest();
@@ -8,38 +8,70 @@ function drawChart() {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             datos = JSON.parse(xmlhttp.responseText);
-           
-           
-           
             var data = google.visualization.arrayToDataTable(datos, true);
             var options = {
                 legend: 'none',
-                title: 'Text',
-                height: 700,
-                width:  1024, 
-                
-                vAxis:{
-                    
+               
+                fontSize:10,
+                height: 650,
+                candlestick: {
+                    fallingColor: {strokeWidth: 0, fill: '#a52714'}, // red
+                    risingColor: {strokeWidth: 0, fill: '#0f9d58'}   // green
+                },
+                chartArea:{width:'60%',height:'90%'},
+                vAxis: {
                     gridlines: {
-                    count: 30,
-                        },
-                 
+                        count: 30,
+                       
+                    },
+                    
                 },
                 animation: {
-                        startup: true,
-                        duration: 1000,
-                        easing: 'out',
-                            }   
+                    startup: true,
+                    duration: 1000,
+                    easing: 'out',
+                }
             };
 
             var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);
+            draw_table(datos);
         }
     };
     var base_url = window.location.pathname;
-    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/profit/2015-01-01/2015-12-31/12", true);
+    var portafolios = $("select[name=portafolios]").val();
+    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/rendimiento/2015-01-01/2015-12-31/"+portafolios, true);
     xmlhttp.send();
+    
+}
 
-
+function draw_table(datos){
+    
+   var table = '<table class="table table-hover table_candel"><tbody>';
+   var i,e;
+   var temp;
+   var valor;
+   table = table + '<thead><tr>'+ 
+                     '<th>MONTH</th><th>MIN</th>'+
+                     '<th>OPEN</th><th>CLOSE</th>'+
+                     '<th>MAX</th>'+
+                   '</tr></thead>';
+    for(i=0;i < $(datos).size(); i++){
+        table = table + '<tr>';
+        temp = datos[i];
+        
+        for(e=0; e<$(temp).size();e++){
+            valor = parseFloat(temp[e]);
+            table = table + '<td>'+valor.toPrecision(2)+'</td>';
+           
+        }
+        table = table + '</tr>';
+    }
+    
+    
+    
+   table = table + '</tbody></table>';
+   console.log(table);
+   $("#table_candel_info").html(table);
 }

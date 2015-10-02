@@ -14,6 +14,7 @@ and open the template in the editor.
         <?php
             echo link_tag('bootstrap/css/bootstrap.min.css');
             echo link_tag('bootstrap/css/dashboard.css');
+            echo link_tag('bootstrap/css/mystyle.css');
         ?>
         <script src="<?php echo base_url().'js/jquery/jquery.js'; ?>"></script>
         <script src="<?php echo base_url().'js/jquery/jquery.tablesorter.min.js'; ?>"></script>

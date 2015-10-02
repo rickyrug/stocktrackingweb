@@ -11,19 +11,22 @@
  *
  * @author rickyrug
  */
-class Reportes extends CI_Controller{
-   
-    public function index() {
-       
-        $data['titlederecha']   = "Datos";
-        $data['titleizquierda'] = "Grafica";
+class Reportes extends CI_Controller {
 
+    public function index() {
+
+        $data['titlederecha'] = "Datos";
+        $data['titleizquierda'] = "Grafica";
+        $data['portafolios'] = $this->get_portafolios();
+        $data['dropdownactions'] =  array(
+                                        'onChange' => 'drawChart()'
+                                         );
         $this->load->helper(array('form', 'url', 'html'));
-       
+        
         $this->load->library('table');
-        $this->call_views('reportes/reporte',$data);
+        $this->call_views('reportes/reporte', $data);
     }
-    
+
     private function call_views($p_view, $p_data = null) {
         $this->load->view('header');
         if ($p_data == null) {
@@ -34,9 +37,50 @@ class Reportes extends CI_Controller{
 
         $this->load->view('footer');
     }
-    
+
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-        
+
+         $candel_data = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
+         
+      
+         echo json_encode($candel_data, JSON_NUMERIC_CHECK);
+    
+       
+    }
+
+    private function get_open($p_field, $p_month, $p_year, $p_portafolios) {
+        $this->load->model('Resultados_Model', '', TRUE);
+        $this->load->library(array('calendar'));
+        $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
+        $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+        $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
+
+        return $resultado[0]->valueopen;
+    }
+
+    private function get_close($p_field, $p_month, $p_year, $p_portafolios) {
+        $this->load->model('Resultados_Model', '', TRUE);
+        $this->load->library(array('calendar'));
+        $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
+        $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+        $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
+
+        return $resultado[0]->valueclose;
+    }
+
+    private function get_portafolios() {
+        $var_portafolios_list = array();
+        $this->load->model('Portafolios_Model', '', TRUE);
+        $results = $this->Portafolios_Model->get_Portafolios_Model_fields('idportafolios,nombre');
+        $var_portafolios_list[] = "";
+        foreach ($results as $portafolios) {
+            $var_portafolios_list[$portafolios->idportafolios] = $portafolios->nombre;
+        }
+
+        return $var_portafolios_list;
+    }
+
+    private function collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
         $this->load->model('Resultados_Model', '', TRUE);
         $candel_data = array();
         $var_open = 0.0;
@@ -46,38 +90,15 @@ class Reportes extends CI_Controller{
             $var_open = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
             $var_close = $this->get_close($p_field, $result->month, $result->year, $p_portafolios);
             $row = array(
-                $result->month."/".$result->year,
+                $result->month . "/" . $result->year,
                 $result->min,
                 $var_open,
                 $var_close,
                 $result->max,
-
             );
             array_push($candel_data, $row);
         }
-        echo json_encode($candel_data,JSON_NUMERIC_CHECK);
-//        var_dump($results);
+        return $candel_data;
     }
-    
-    private function get_open($p_field, $p_month, $p_year, $p_portafolios){
-        $this->load->model('Resultados_Model', '', TRUE);
-        $this->load->library(array('calendar'));
-        $var_fechainicial = $p_year.'-'.$p_month.'-'.'01';
-        $var_fechafinal   = $p_year.'-'.$p_month.'-'.$this->calendar->get_total_days($p_month, $p_year);
-        $resultado = $this->Resultados_Model->get_value_open($p_field,$var_fechainicial,
-                                                            $var_fechafinal,$p_portafolios);
-        
-        return $resultado[0]->valueopen;
-    }
-    
-    private function get_close($p_field, $p_month, $p_year, $p_portafolios){
-        $this->load->model('Resultados_Model', '', TRUE);
-        $this->load->library(array('calendar'));
-        $var_fechainicial = $p_year.'-'.$p_month.'-'.'01';
-        $var_fechafinal   = $p_year.'-'.$p_month.'-'.$this->calendar->get_total_days($p_month, $p_year);
-        $resultado = $this->Resultados_Model->get_value_close($p_field,$var_fechainicial,
-                                                            $var_fechafinal,$p_portafolios);
-        
-        return $resultado[0]->valueclose;
-    }
+
 }

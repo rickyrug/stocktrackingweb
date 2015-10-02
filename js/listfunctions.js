@@ -17,8 +17,10 @@ $(document).ready(function () {
                    
                 }
             }
-            var base_url = window.location.pathname;
-            xmlhttp.open("GET", "http://localhost"+base_url+"/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); // first try `../index.php/example` ( extension depends if you enable/disable url rewrite in apache.conf ) , if this won't work then try base_url/index.php/example ( where you can specify base_url by static or with CodeIgniter helpher function )
+            var base_url = window.location;
+            var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2]+'/'+base_url.pathname.split('/')[3];
+          
+            xmlhttp.open("GET", "http://localhost/"+url+"/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
         
     });
@@ -36,8 +38,10 @@ $(document).ready(function () {
                    
                 }
             }
-            var base_url = window.location.pathname;
-            xmlhttp.open("GET", "http://localhost"+base_url+"/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
+            var base_url = window.location;
+            var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2]+'/'+base_url.pathname.split('/')[3];
+          
+            xmlhttp.open("GET", "http://localhost/"+url+"/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
 
     });
