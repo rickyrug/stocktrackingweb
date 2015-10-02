@@ -4,21 +4,20 @@ function drawChart() {
 
     var xmlhttp = new XMLHttpRequest();
     var datos;
-    var candel_data = [];
-    var row = [];
-    var i;
-    var e;
+
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             datos = JSON.parse(xmlhttp.responseText);
-             console.log(datos);
+           
+           
+           
             var data = google.visualization.arrayToDataTable(datos, true);
             var options = {
                 legend: 'none',
-                title: 'Text,',
+                title: 'Text',
                 height: 700,
                 width:  1024, 
-               
+                
                 vAxis:{
                     
                     gridlines: {
@@ -38,7 +37,8 @@ function drawChart() {
             chart.draw(data, options);
         }
     };
-    xmlhttp.open("GET", "http://localhost/StockTracker/index.php/reportes/generate_data_candel/valor/2015-01-01/2015-12-31/12", true);
+    var base_url = window.location.pathname;
+    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/profit/2015-01-01/2015-12-31/12", true);
     xmlhttp.send();
 
 
