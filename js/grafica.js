@@ -41,7 +41,7 @@ function drawChart() {
     };
     var base_url = window.location.pathname;
     var portafolios = $("select[name=portafolios]").val();
-    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/rendimiento/2015-01-01/2015-12-31/"+portafolios, true);
+    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/valor/2015-01-01/2015-12-31/"+portafolios, true);
     xmlhttp.send();
     
 }
