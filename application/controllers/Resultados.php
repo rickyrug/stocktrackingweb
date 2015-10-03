@@ -232,4 +232,10 @@ class Resultados extends CI_Controller {
         return $p_valorinicialportafolios + $p_aportaciones - $p_retiros;
     }
 
+    public function db_upload() {
+        $file = fopen("contacts.csv", "r");
+        print_r(fgetcsv($file));
+        fclose($file);
+    }
+
 }
