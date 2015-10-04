@@ -8,20 +8,18 @@
         <table>
             <tbody>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td><input id="fechaini" type="text" name="fechaini" value="" placeholder="Fecha inicio"/></td>
+                    <td><input id="fechafin" type="text" name="fechafin" value="" placeholder="Fecha fin"/></td>
                 </tr>
                 <tr>
-                    <td colspan="2"> Portafolios:<?php
+                    <td><h4>Portafolios:</h4></td>
+                    <td> 
+                        <?php
                         echo form_dropdown('portafolios', $portafolios,'',$dropdownactions);
                         ?>
                     </td>
-                    
                 </tr>
-                <tr>
-                    <td><input type="text" name="fechaini" value="" placeholder="Fecha inicio"/>   </td>
-                    <td><input type="text" name="fechafin" value="" placeholder="Fecha fin"/>   </td>
-                </tr>
+                
                 <tr>
                     <td colspan="2" id="table_candel_info">
                         
