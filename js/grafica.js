@@ -47,7 +47,7 @@ function drawChart() {
 }
 
 function draw_table(datos){
-    
+   console.log(datos);
    var table = '<table class="table table-hover table_candel"><tbody>';
    var i,e;
    var temp;
@@ -63,7 +63,7 @@ function draw_table(datos){
         
         for(e=0; e<$(temp).size();e++){
             valor = parseFloat(temp[e]);
-            table = table + '<td>'+valor.toPrecision(2)+'</td>';
+            table = table + '<td>'+valor.toPrecision(8)+'</td>';
            
         }
         table = table + '</tr>';

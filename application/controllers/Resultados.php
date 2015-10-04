@@ -209,42 +209,28 @@ class Resultados extends CI_Controller {
         $fechas = null;
         $valores = null;
         while (!feof($file)) {
+            $temp = fgetcsv($file);
+            $this->batch_input($temp);
+           
 
-            if ($linea == 1) {
-                $fechas = fgetcsv($file);
-            } elseif ($linea == 2) {
-                $valores = fgetcsv($file);
-            }
-
-            $linea++;
         }
-        $this->batch_input(array(
-            'fechas' => $fechas,
-            'valores' => $valores
-        ));
+
         fclose($file);
     }
 
     private function batch_input($data) {
         $this->load->helper('date');
-        $arr_fechas = $data['fechas'];
-        $arr_valores = $data['valores'];
-        $rows = count($arr_fechas);
         $this->load->model('Resultados_Model', '', TRUE);
-        for ($i = 0; $i < $rows; $i++) {
+        
+        $p_portafolios = 13;
+        $p_valor       = $data[1];
+        $p_fecha       = $data[0];
 
-            $p_portafolios = 11;
-            $p_valor = $arr_valores[$i];
-            $p_fecha = nice_date($arr_fechas[$i], 'Y-m-d');
+        $p_profit = $this->create_profit($p_portafolios, $p_valor, $p_fecha);
+        $p_rendimiento = $this->create_rendimiento($p_portafolios, $p_valor, $p_fecha);
 
-            $p_profit = $this->create_profit($p_portafolios, $p_valor, $p_fecha);
-            $p_rendimiento = $this->create_rendimiento($p_portafolios, $p_valor, $p_fecha);
-         
-             $this->Resultados_Model->insert_resultados($p_fecha,$p_portafolios,
-                                              $p_valor,$p_profit,$p_rendimiento);
-            
-//            echo nice_date($arr_fechas[$i], 'Y-m-d').': $'.$arr_valores[$i].'<br/>';
-        }
+//        echo $p_fecha . ' , ' . $p_portafolios . ' , ' . $p_valor . ' , ' . $p_profit . ' , ' . $p_rendimiento . '<br/>';
+        $this->Resultados_Model->insert_resultados($p_fecha, $p_portafolios, $p_valor, $p_profit, $p_rendimiento);
     }
 
     private function create_profit($p_portafolios, $p_valor, $p_fecha) {
