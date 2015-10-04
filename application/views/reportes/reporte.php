@@ -16,9 +16,11 @@
                         echo form_dropdown('portafolios', $portafolios,'',$dropdownactions);
                         ?>
                     </td>
-                    <td>
-                        
-                    </td>
+                    
+                </tr>
+                <tr>
+                    <td><input type="text" name="fechaini" value="" placeholder="Fecha inicio"/>   </td>
+                    <td><input type="text" name="fechafin" value="" placeholder="Fecha fin"/>   </td>
                 </tr>
                 <tr>
                     <td colspan="2" id="table_candel_info">
