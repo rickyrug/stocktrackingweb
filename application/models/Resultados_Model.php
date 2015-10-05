@@ -98,7 +98,7 @@ class Resultados_Model extends CI_Model{
     public function get_max_min($field,$p_fechaini,$p_fechafinal,$p_portafolios){
         $this->db->select("month(fecha) as month, year(fecha) as year, max(".$field.") as max,min(".$field.") as min");
         $this->db->from('resultados');
-        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where_in('portafolios',$p_portafolios);
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
         $this->db->group_by(array("month(fecha)", "year(fecha)"));
@@ -111,7 +111,7 @@ class Resultados_Model extends CI_Model{
     public function get_value_open($field,$p_fechaini,$p_fechafinal,$p_portafolios){
         $this->db->select($field.' as valueopen');
         $this->db->from('resultados');
-        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where_in('portafolios',$p_portafolios);
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
         $this->db->order_by("fecha");
@@ -123,7 +123,7 @@ class Resultados_Model extends CI_Model{
     public function get_value_close($field,$p_fechaini,$p_fechafinal,$p_portafolios){
         $this->db->select($field.' as valueclose');
         $this->db->from('resultados');
-        $this->db->where('portafolios',$p_portafolios);
+        $this->db->where_in('portafolios',$p_portafolios);
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
         $this->db->order_by("fecha",'desc');

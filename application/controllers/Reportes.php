@@ -39,7 +39,17 @@ class Reportes extends CI_Controller {
     }
 
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-
+         
+        if($p_portafolios == 0){
+        $this->load->model('Portafolios_Model', '', TRUE);
+        $results = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios');
+        $portafolios = array();
+        foreach ($results as $result){
+            array_push($portafolios, $result->idportafolios);
+        }
+        $p_portafolios = $portafolios;
+        }
+        
          $candel_data = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
          
       

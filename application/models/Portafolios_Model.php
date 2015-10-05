@@ -36,6 +36,13 @@ class Portafolios_Model extends CI_Model{
          return $query->result();
     }
     
+     public function get_parent_Portafolios_Model_fields($p_fields) {
+         $this->db->select($p_fields);
+         $this->db->where('portafoliospadre', null);
+         $query = $this->db->get('portafolios');
+         return $query->result();
+    }
+    
     public function find_by_id($p_Portafolios_Modelid) {
 
         $this->db->from('portafolios');
