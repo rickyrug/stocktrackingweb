@@ -204,7 +204,7 @@ class Resultados extends CI_Controller {
     }
 
     public function db_upload() {
-        $file = fopen("http://localhost/stocktraking/files/newfile", "r");
+        $file = fopen("http://localhost/StockTracker/files/newfile", "r");
         $linea = 1;
         $fechas = null;
         $valores = null;
@@ -222,7 +222,7 @@ class Resultados extends CI_Controller {
         $this->load->helper('date');
         $this->load->model('Resultados_Model', '', TRUE);
         
-        $p_portafolios = 13;
+        $p_portafolios = 15;
         $p_valor       = $data[1];
         $p_fecha       = $data[0];
 
