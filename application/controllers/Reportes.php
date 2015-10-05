@@ -85,7 +85,9 @@ class Reportes extends CI_Controller {
         $candel_data = array();
         $var_open = 0.0;
         $var_close = 0.0;
+       
         $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
+        
         foreach ($results as $result) {
             $var_open = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
             $var_close = $this->get_close($p_field, $result->month, $result->year, $p_portafolios);
