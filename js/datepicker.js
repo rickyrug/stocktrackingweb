@@ -1,4 +1,4 @@
-$(document).ready(function () {
-     $('#fechafin').datepicker();
+ $(function () {
+        $("#fechaini").datepicker;
+    });
 
-});

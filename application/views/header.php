@@ -17,10 +17,10 @@ and open the template in the editor.
             echo link_tag('bootstrap/css/mystyle.css');
         ?>
         <script src="<?php echo base_url().'js/jquery/jquery.js'; ?>"></script>
+        <script src="<?php echo base_url().'js/jqueryui/jquery-ui.js'; ?>"></script>
         <script src="<?php echo base_url().'js/jquery/jquery.tablesorter.min.js'; ?>"></script>
         <script src="<?php echo base_url().'js/jquery/jquery.tablesorter.widgets.min.js'; ?>"></script>
-        <script src="<?php echo base_url().'js/listfunctions.js'; ?>"></script>
-        <script src="<?php echo base_url().'js/jqueryui/jquery-ui.js'; ?>"></script>
+        <script src="<?php echo base_url().'js/listfunctions.js'; ?>"></script>       
         <script src="<?php echo base_url().'js/datepicker.js'; ?>"></script>
     </head>
     <body>
