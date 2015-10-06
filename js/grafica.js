@@ -20,8 +20,12 @@ function drawChart() {
                 },
                 chartArea:{width:'60%',height:'90%'},
                 vAxis: {
+                    /*viewWindow:{
+                        min:5000,
+                        max:5200
+                    },*/
                     gridlines: {
-                        count: 30,
+                        count: 15,
                        
                     },
                     
@@ -43,7 +47,7 @@ function drawChart() {
     var portafolios = $("select[name=portafolios]").val();
     var fechainicio = $("input[name=fechaini]").val();
     var fechafinal  = $("input[name=fechafin]").val();
-    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/valor/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
+    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/profit/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
     xmlhttp.send();
     
 }
