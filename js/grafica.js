@@ -48,6 +48,7 @@ function drawChart() {
     
 }
 
+
 function draw_table(datos){
    console.log(datos);
    var table = '<table class="table table-hover table_candel"><tbody>';
