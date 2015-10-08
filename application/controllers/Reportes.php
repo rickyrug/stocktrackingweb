@@ -63,8 +63,14 @@ class Reportes extends CI_Controller {
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+        
+        if(count($p_portafolios)>1){
+            $temp = 'SUM('.$p_field.')';
+            $p_field = $temp;
+        }
+        
         $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
-
+        
         return $resultado[0]->valueopen;
     }
 
@@ -73,6 +79,12 @@ class Reportes extends CI_Controller {
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+
+        if (count($p_portafolios) > 1) {
+            $temp = 'SUM(' . $p_field . ')';
+            $p_field = $temp;
+        }
+
         $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
 
         return $resultado[0]->valueclose;
@@ -95,9 +107,11 @@ class Reportes extends CI_Controller {
         $candel_data = array();
         $var_open = 0.0;
         $var_close = 0.0;
-       
-        $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
-        
+        if (count($p_portafolios) == 1) {
+            $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
+        } elseif (count($p_portafolios) > 1) {
+            $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
+        }
         foreach ($results as $result) {
             $var_open = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
             $var_close = $this->get_close($p_field, $result->month, $result->year, $p_portafolios);

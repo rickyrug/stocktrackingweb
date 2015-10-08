@@ -74,6 +74,6 @@ function draw_table(datos){
     
     
    table = table + '</tbody></table>';
-   console.log(table);
+  
    $("#table_candel_info").html(table);
 }
