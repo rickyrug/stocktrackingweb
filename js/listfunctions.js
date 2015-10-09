@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 $(document).ready(function () {
-    $('input[name=profit]').dblclick(function () {
+    
+    $('input[name=profit]').keydown(function(e){
        
+       if(e.which === 9){
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();
             var var_valor       = $('input[name=valor]').val();
-            
+           
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -22,11 +24,13 @@ $(document).ready(function () {
           
             xmlhttp.open("GET", "http://localhost/"+url+"/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
-        
+           
+       }
     });
     
-    $('input[name=rendimiento]').dblclick(function(){
-        
+    
+    $('input[name=rendimiento]').keydown(function(e){
+        if(e.which === 9){
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();
             var var_valor       = $('input[name=valor]').val();
@@ -43,6 +47,7 @@ $(document).ready(function () {
           
             xmlhttp.open("GET", "http://localhost/"+url+"/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
+        }
 
     });
     

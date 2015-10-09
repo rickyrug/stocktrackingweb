@@ -18,9 +18,35 @@ class Resultados extends CI_Controller {
         $this->load->model('Resultados_Model', '', TRUE);
         $results = $this->Resultados_Model->get_resultados_model();
         $data['results'] = $results;
+        $data['accion'] = 'resultados/find_portafolios_results';
         $this->load->helper(array('form', 'url', 'html'));
         $this->load->library(array('form_validation', 'table'));
         $this->call_views('resultados/list', $data);
+    }
+    
+    public function find_portafolios_results() {
+        $this->load->helper(array('form', 'url'));
+        if (isset($_POST['nombreportafolios']) && $_POST['nombreportafolios'] != "") {
+
+            $p_nameportafolios = $_POST['nombreportafolios'];
+
+            $this->load->model('Resultados_Model', '', TRUE);
+            $this->load->model('Portafolios_Model', '', TRUE);
+
+            $portafolios = $this->Portafolios_Model->find_by_name($p_nameportafolios);
+            if (count($portafolios) > 0) {
+            $results = $this->Resultados_Model->get_resultados_by_portafolios($portafolios[0]->idportafolios);
+                $data['results'] = $results;
+                $data['accion'] = 'resultados/find_portafolios_results';
+                $this->load->helper(array('form', 'url', 'html'));
+                $this->load->library(array('form_validation', 'table'));
+                $this->call_views('resultados/list', $data);
+            }else{ // si no encuentra resultados para el portafolios
+                 redirect('resultados', 'refresh');
+            }
+        } else { // si el portafolios es vacio
+            redirect('resultados', 'refresh');
+        }
     }
 
     public function add() {

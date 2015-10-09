@@ -51,10 +51,11 @@ class Resultados_Model extends CI_Model{
         return $query->result();
     }
     
-    public function get_Operaciones_Model_fields($p_fields, $p_idportafolios){
-        $this->db->select($p_fields);
+    public function get_resultados_by_portafolios($p_idportafolios){
+        $this->db->select('resultados.idresultados, resultados.fecha, portafolios.nombre as portafolios,
+       resultados.valor,resultados.profit,resultados.rendimiento, portafolios.idportafolios');
         $this->db->from('resultados');
-        $this->db->join('portafolios', 'resultados.protafolios = portafolios.idportafolios');
+        $this->db->join('portafolios', 'resultados.portafolios = portafolios.idportafolios');
         $this->db->where('portafolios',$p_idportafolios);
         $query = $this->db->get();
         return $query->result();

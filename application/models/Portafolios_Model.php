@@ -50,6 +50,13 @@ class Portafolios_Model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+    
+    public function find_by_name($p_portafoliosname){
+        $this->db->from('portafolios');
+        $this->db->where('nombre', $p_portafoliosname);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     public function insert_Portafolios_Model($p_nombre, $p_valorinicial,
                                              $p_fechainicial,$p_portafolios_padre = null){
