@@ -51,7 +51,11 @@
                     
                 </div>
             </div>
-           
+            <div class="row">
+                <div class="col-md-12 ">
+                    <input type="button" value="Buscar" onclick="drawChart()"class="btn btn-primary btn-lg btn-block"/>
+                </div>
+            </div>
             <div class="row">
                 <div id="table_candel_info"></div>
             </div>

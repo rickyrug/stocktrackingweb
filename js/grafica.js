@@ -11,9 +11,8 @@ function drawChart() {
             var data = google.visualization.arrayToDataTable(datos.valores, true);
             var options = {
                 legend: 'none',
-               
                 fontSize:10,
-                height: 650,
+                height: 600, 
                 candlestick: {
                     fallingColor: {strokeWidth: 0, fill: '#a52714'}, // red
                     risingColor: {strokeWidth: 0, fill: '#0f9d58'}   // green
