@@ -19,7 +19,7 @@ class Reportes extends CI_Controller {
         $data['titleizquierda'] = "Grafica";
         $data['portafolios'] = $this->get_portafolios();
         $data['dropdownactions'] =  array(
-                                        'onChange' => 'drawChart()',
+                                     /*   'onChange' => 'drawChart()',*/
                                         'class'    => 'form-control'
                                          );
         $this->load->helper(array('form', 'url', 'html'));

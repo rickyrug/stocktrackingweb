@@ -51,6 +51,7 @@
                     
                 </div>
             </div>
+           
             <div class="row">
                 <div id="table_candel_info"></div>
             </div>
