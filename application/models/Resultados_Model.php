@@ -110,7 +110,7 @@ class Resultados_Model extends CI_Model{
     
     public function get_max_min_total($field,$p_fechaini,$p_fechafinal,$p_portafolios){
         $this->db->select('month(res.fecha) as month, 
-                          year(res.fecha) as year, max(res.'.$field.') as max, min(res.'.$field.') as min
+                          year(res.fecha) as year, max(res.valor) as max, min(res.valor) as min
                        from (
                           select  fecha, sum('.$field.') as valor
                           from resultados 

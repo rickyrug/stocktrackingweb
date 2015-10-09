@@ -76,7 +76,6 @@ class Resultados extends CI_Controller {
         } else {
             $this->load->view($p_view, $p_data);
         }
-
         $this->load->view('footer');
     }
 
@@ -173,7 +172,6 @@ class Resultados extends CI_Controller {
         $this->load->library('form_validation');
         $this->load->model('Resultados_Model', '', TRUE);
         $result = $this->Resultados_Model->find_by_id($p_idresultado);
-
         $data['accion'] = 'resultados/edit';
         $data['labelfecha'] = 'Fecha: ';
         $data['fecha'] = array('name' => 'fecha', 'value' => $result[0]->fecha);
@@ -205,14 +203,11 @@ class Resultados extends CI_Controller {
 
     public function db_upload() {
         $file = fopen("http://localhost/StockTracker/files/newfile", "r");
-        $linea = 1;
-        $fechas = null;
-        $valores = null;
+        
         while (!feof($file)) {
             $temp = fgetcsv($file);
             $this->batch_input($temp);
-           
-
+          
         }
 
         fclose($file);

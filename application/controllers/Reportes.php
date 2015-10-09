@@ -19,7 +19,8 @@ class Reportes extends CI_Controller {
         $data['titleizquierda'] = "Grafica";
         $data['portafolios'] = $this->get_portafolios();
         $data['dropdownactions'] =  array(
-                                        'onChange' => 'drawChart()'
+                                        'onChange' => 'drawChart()',
+                                        'class'    => 'form-control'
                                          );
         $this->load->helper(array('form', 'url', 'html'));
         
@@ -50,9 +51,9 @@ class Reportes extends CI_Controller {
         $p_portafolios = $portafolios;
         }
         
-         $candel_data = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
+         $candel_data['valores'] = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
          
-      
+         
          echo json_encode($candel_data, JSON_NUMERIC_CHECK);
     
        
@@ -126,5 +127,10 @@ class Reportes extends CI_Controller {
         }
         return $candel_data;
     }
+    
+//    private function get_profit_todate($p_portafolios, $){
+//        
+//    }
+    
 
 }

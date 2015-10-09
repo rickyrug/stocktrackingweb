@@ -8,7 +8,7 @@ function drawChart() {
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             datos = JSON.parse(xmlhttp.responseText);
-            var data = google.visualization.arrayToDataTable(datos, true);
+            var data = google.visualization.arrayToDataTable(datos.valores, true);
             var options = {
                 legend: 'none',
                
@@ -40,21 +40,22 @@ function drawChart() {
             var chart = new google.visualization.CandlestickChart(document.getElementById('chart_div'));
 
             chart.draw(data, options);
-            draw_table(datos);
+            draw_table(datos.valores);
         }
     };
     var base_url = window.location.pathname;
     var portafolios = $("select[name=portafolios]").val();
+    var parameter   = $("select[name=get_param]").val();
     var fechainicio = $("input[name=fechaini]").val();
     var fechafinal  = $("input[name=fechafin]").val();
-    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/profit/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
+    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/"+parameter+"/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
     xmlhttp.send();
-    
+   
 }
 
 
 function draw_table(datos){
-   console.log(datos);
+   
    var table = '<table class="table table-hover table_candel"><tbody>';
    var i,e;
    var temp;
