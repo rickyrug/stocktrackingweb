@@ -132,7 +132,7 @@ class Resultados_Model extends CI_Model{
         $this->db->where_in('portafolios',$p_portafolios);
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
-        $this->db->group_by("day(fecha)");
+//        $this->db->group_by("day(fecha)");
         $this->db->order_by("fecha");
         $this->db->limit(1);
         $query = $this->db->get();
@@ -145,7 +145,7 @@ class Resultados_Model extends CI_Model{
         $this->db->where_in('portafolios',$p_portafolios);
         $this->db->where('fecha >=',$p_fechaini);
         $this->db->where('fecha <=',$p_fechafinal);
-        $this->db->group_by("day(fecha)");
+//        $this->db->group_by("day(fecha)");
         $this->db->order_by("fecha",'desc');
         $this->db->limit(1);
         $query = $this->db->get();

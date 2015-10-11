@@ -60,19 +60,24 @@ class Reportes extends CI_Controller {
     }
 
     private function get_open($p_field, $p_month, $p_year, $p_portafolios) {
+        
         $this->load->model('Resultados_Model', '', TRUE);
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+        $valoropen = 0.0;
         
-        if(count($p_portafolios)>1){
-            $temp = 'SUM('.$p_field.')';
-            $p_field = $temp;
+        if (count($p_portafolios) > 1) {
+            foreach ($p_portafolios as $portafolio) {
+                $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
+                $valoropen = $valoropen + $resultado[0]->valueopen;  
+            }
+        } else {
+            $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
+            $valoropen = $resultado[0]->valueopen;
         }
-        
-        $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
-        
-        return $resultado[0]->valueopen;
+
+        return $valoropen;
     }
 
     private function get_close($p_field, $p_month, $p_year, $p_portafolios) {
@@ -81,14 +86,19 @@ class Reportes extends CI_Controller {
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
 
+        $valorclose = 0.0;
+        
         if (count($p_portafolios) > 1) {
-            $temp = 'SUM(' . $p_field . ')';
-            $p_field = $temp;
+            foreach ($p_portafolios as $portafolio) {
+                $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
+                $valorclose = $valorclose + $resultado[0]->valueclose;  
+            }
+        } else {
+            $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
+            $valorclose = $resultado[0]->valueclose;
         }
-
-        $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
-
-        return $resultado[0]->valueclose;
+        
+        return $valorclose;
     }
 
     private function get_portafolios() {
@@ -114,23 +124,12 @@ class Reportes extends CI_Controller {
             $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
         }
         foreach ($results as $result) {
-            $var_open = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
+            $var_open  = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
             $var_close = $this->get_close($p_field, $result->month, $result->year, $p_portafolios);
-            $row = array(
-                $result->month . "/" . $result->year,
-                $result->min,
-                $var_open,
-                $var_close,
-                $result->max,
-            );
+            $row = array($result->month . "/" . $result->year,$result->min,$var_open,$var_close,$result->max,);
             array_push($candel_data, $row);
         }
         return $candel_data;
     }
     
-//    private function get_profit_todate($p_portafolios, $){
-//        
-//    }
-    
-
 }
