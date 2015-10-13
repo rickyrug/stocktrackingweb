@@ -24,7 +24,7 @@ function drawChart() {
                         max:5200
                     },*/
                     gridlines: {
-                        count: 15,
+                        count: 50,
                        
                     },
                     
