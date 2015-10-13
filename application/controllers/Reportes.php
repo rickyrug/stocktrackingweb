@@ -118,10 +118,17 @@ class Reportes extends CI_Controller {
         $candel_data = array();
         $var_open = 0.0;
         $var_close = 0.0;
+        $results = null;
         if (count($p_portafolios) == 1) {
             $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
         } elseif (count($p_portafolios) > 1) {
-            $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
+            
+            foreach($p_portafolios as $portafolio){
+                $p_portalio_result = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $portafolio);
+                $results = $this->sum_data($p_portalio_result, $results);
+            }
+            
+//            $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
         }
         foreach ($results as $result) {
             $var_open  = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
@@ -132,4 +139,26 @@ class Reportes extends CI_Controller {
         return $candel_data;
     }
     
+    private function sum_data($p_portafolios_result, $p_total_results = null) {
+        if ($p_total_results != null) {
+
+            for ($i = 0; $i < count($p_portafolios_result); $i++) {
+                
+                if ($p_portafolios_result[$i]->month == $p_total_results[$i]->month &&
+                    $p_portafolios_result[$i]->year  == $p_total_results[$i]->year
+                ) {
+                    $p_total_results[$i]->max = $p_total_results[$i]->max + $p_portafolios_result[$i]->max;
+                    $p_total_results[$i]->min = $p_total_results[$i]->min + $p_portafolios_result[$i]->min;
+                }
+            }
+        } else {
+            $p_total_results = array();
+            foreach ($p_portafolios_result as $portafolio_result) {
+                array_push($p_total_results, $portafolio_result);
+            }
+        }
+
+        return $p_total_results;
+    }
+
 }
