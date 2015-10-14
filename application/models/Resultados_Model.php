@@ -151,4 +151,13 @@ class Resultados_Model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+    
+    public function get_max_date($p_fechaini,$p_fechafinal){
+        $this->db->select('max(fecha) as fecha' );
+        $this->db->from('resultados');
+        $this->db->where('fecha >=',$p_fechaini);
+        $this->db->where('fecha <=',$p_fechafinal);
+        $query = $this->db->get();
+        return $query->result();
+    }
 }

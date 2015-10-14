@@ -40,9 +40,10 @@ class Reportes extends CI_Controller {
     }
 
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-         
+          $this->load->model('Portafolios_Model', '', TRUE);
+          
         if ($p_portafolios == 0) {
-            $this->load->model('Portafolios_Model', '', TRUE);
+           
             $results = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios');
             $portafolios = array();
             foreach ($results as $result) {
@@ -54,14 +55,14 @@ class Reportes extends CI_Controller {
             array_push($portafolios, $p_portafolios);
             $p_portafolios = $portafolios;
         }
-
+         $var_valid_date = $this->get_valid_date($p_fechainicial, $p_fechafinal);
          $candel_data['valores']      = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
          $candel_data['aportaciones'] = number_format($this->get_operaciones($p_portafolios, $p_fechafinal,'AP'),2);
          $candel_data['retiros']      = number_format($this->get_operaciones($p_portafolios, $p_fechafinal,'RT'),2);
-         $candel_data['profit']       = number_format($this->get_close('profit', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)), $p_portafolios),2);
-         $var_performance             = $this->get_close('rendimiento', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)),$p_portafolios) * 100;
+         $candel_data['profit']       = number_format($this->get_close('profit', date("m",strtotime($var_valid_date)), date("Y",strtotime($var_valid_date)), $p_portafolios),2);
+         $var_performance             = $this->get_close('rendimiento', date("m",strtotime($var_valid_date)), date("Y",strtotime($var_valid_date)),$p_portafolios) * 100;
          $candel_data['perform']      = number_format($var_performance, 2);
-         $candel_data['valor']        = number_format($this->get_close('valor', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)), $p_portafolios),2);
+         $candel_data['valor']        = number_format($this->get_close('valor', date("m",strtotime($var_valid_date)), date("Y",strtotime($var_valid_date)), $p_portafolios),2);
          $candel_data['initialvalue'] = number_format($this->get_portafolios_initial_value($p_portafolios),2);
          
          echo json_encode($candel_data, JSON_NUMERIC_CHECK);
@@ -202,4 +203,13 @@ class Reportes extends CI_Controller {
     }
    
     
+    private function get_valid_date($p_fechaini,$p_fechafinal){
+        $this->load->model('Resultados_Model', '', TRUE);
+       $result = $this->Resultados_Model->get_max_date($p_fechaini,$p_fechafinal);
+       if(count($result)>0){
+           return $result[0]->fecha;
+       }else{
+          return 0; 
+       }
+    }
 }
