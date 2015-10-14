@@ -57,6 +57,34 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-sm-4">
+                    <span class="label label-default">Utilidad</span>
+                    <span id="utilidad" class="label label-info"></span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="label label-default">Rendimiento</span>
+                    <span  id="rendimiento" class="label label-info"></span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="label label-default">Valor</span>
+                    <span  id="valor" class="label label-info"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <span class="label label-default">Aportaciones</span>
+                    <span id="aportaciones" class="label label-info"></span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="label label-default">Retiros</span>
+                    <span  id="retiros" class="label label-info"></span>
+                </div>
+                <div class="col-sm-4">
+                    <span class="label label-default">Valor inicial</span>
+                    <span  id="valorinicial" class="label label-info"></span>
+                </div>
+            </div>
+            <div class="row">
                 <div id="table_candel_info"></div>
             </div>
         </div>

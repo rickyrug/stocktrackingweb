@@ -15,7 +15,7 @@ class Main extends CI_Controller{
    
     public function index() {
         $this->load->helper(array('form', 'url', 'html'));
-        $this->call_views('index/index');
+        $this->call_views('index/main_page');
     }
      
     private function call_views($p_view, $p_data = null) {

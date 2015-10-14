@@ -40,6 +40,7 @@ function drawChart() {
 
             chart.draw(data, options);
             draw_table(datos.valores);
+            set_values(datos);
         }
     };
     var base_url = window.location.pathname;
@@ -81,4 +82,15 @@ function draw_table(datos){
    table = table + '</tbody></table>';
   
    $("#table_candel_info").html(table);
+}
+
+function set_values(datos){
+   
+    $('#utilidad').text('$'+datos.profit);
+    $('#rendimiento').text(datos.perform+'%');
+    $('#valor').text('$'+datos.valor);
+    $('#aportaciones').text('$'+datos.aportaciones);
+    $('#retiros').text('$'+datos.retiros);
+    $('#valorinicial').text('$'+datos.initialvalue);
+   
 }

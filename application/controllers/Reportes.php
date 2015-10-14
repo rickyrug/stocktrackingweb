@@ -41,18 +41,28 @@ class Reportes extends CI_Controller {
 
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
          
-        if($p_portafolios == 0){
-        $this->load->model('Portafolios_Model', '', TRUE);
-        $results = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios');
-        $portafolios = array();
-        foreach ($results as $result){
-            array_push($portafolios, $result->idportafolios);
+        if ($p_portafolios == 0) {
+            $this->load->model('Portafolios_Model', '', TRUE);
+            $results = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios');
+            $portafolios = array();
+            foreach ($results as $result) {
+                array_push($portafolios, $result->idportafolios);
+            }
+            $p_portafolios = $portafolios;
+        }else{
+            $portafolios = array();
+            array_push($portafolios, $p_portafolios);
+            $p_portafolios = $portafolios;
         }
-        $p_portafolios = $portafolios;
-        }
-        
-         $candel_data['valores'] = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
-         
+
+         $candel_data['valores']      = $this->collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
+         $candel_data['aportaciones'] = number_format($this->get_operaciones($p_portafolios, $p_fechafinal,'AP'),2);
+         $candel_data['retiros']      = number_format($this->get_operaciones($p_portafolios, $p_fechafinal,'RT'),2);
+         $candel_data['profit']       = number_format($this->get_close('profit', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)), $p_portafolios),2);
+         $var_performance             = $this->get_close('rendimiento', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)),$p_portafolios) * 100;
+         $candel_data['perform']      = number_format($var_performance, 2);
+         $candel_data['valor']        = number_format($this->get_close('valor', date("m",strtotime($p_fechafinal)), date("Y",strtotime($p_fechafinal)), $p_portafolios),2);
+         $candel_data['initialvalue'] = number_format($this->get_portafolios_initial_value($p_portafolios),2);
          
          echo json_encode($candel_data, JSON_NUMERIC_CHECK);
     
@@ -69,8 +79,11 @@ class Reportes extends CI_Controller {
         
         if (count($p_portafolios) > 1) {
             foreach ($p_portafolios as $portafolio) {
+
                 $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
-                $valoropen = $valoropen + $resultado[0]->valueopen;  
+                if (count($resultado) > 0) {
+                    $valoropen = $valoropen + $resultado[0]->valueopen;
+                }
             }
         } else {
             $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
@@ -84,14 +97,16 @@ class Reportes extends CI_Controller {
         $this->load->model('Resultados_Model', '', TRUE);
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
-        $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
-
+        $var_fechafinal   = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
+       
         $valorclose = 0.0;
         
         if (count($p_portafolios) > 1) {
             foreach ($p_portafolios as $portafolio) {
                 $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
+                if (count($resultado) > 0) {
                 $valorclose = $valorclose + $resultado[0]->valueclose;  
+                }
             }
         } else {
             $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
@@ -131,7 +146,7 @@ class Reportes extends CI_Controller {
 //            $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
         }
         foreach ($results as $result) {
-            $var_open  = $this->get_open($p_field, $result->month, $result->year, $p_portafolios);
+            $var_open  = $this->get_open($p_field,  $result->month, $result->year, $p_portafolios);
             $var_close = $this->get_close($p_field, $result->month, $result->year, $p_portafolios);
             $row = array($result->month . "/" . $result->year,$result->min,$var_open,$var_close,$result->max,);
             array_push($candel_data, $row);
@@ -161,4 +176,30 @@ class Reportes extends CI_Controller {
         return $p_total_results;
     }
 
+    private function get_operaciones($p_portafolios, $p_fecha,$p_operacion){
+      $var_total = 0.0;      
+      $this->load->model('Operaciones_Model', '', TRUE);
+      
+      foreach ($p_portafolios as $portafolio){
+          $var_portafolios_ap = $this->Operaciones_Model->get_sum_operacion($p_operacion, $portafolio, $p_fecha);
+          $var_total= $var_total + $var_portafolios_ap[0]->total;
+      }
+      
+      return  $var_total;
+
+    }
+    
+    private function get_portafolios_initial_value($p_portafolios){
+        $this->load->model('Portafolios_Model', '', TRUE);
+        $var_valorinicial = 0.0;
+  
+            foreach ($p_portafolios as $portafolio){
+              $result = $this->Portafolios_Model->find_by_id($portafolio);
+              $var_valorinicial = $var_valorinicial + $result[0]->valorinicial;
+            } 
+
+            return $var_valorinicial;
+    }
+   
+    
 }
