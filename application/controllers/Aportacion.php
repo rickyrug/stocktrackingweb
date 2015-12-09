@@ -9,7 +9,7 @@
 /**
  * Description of Aportacion
  *
- * @author rickyrug
+ * @author Ricardo Rugerio
  */
 class Aportacion extends CI_Controller {
 
