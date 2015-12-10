@@ -48,7 +48,7 @@ function drawChart() {
     var parameter   = $("select[name=get_param]").val();
     var fechainicio = $("input[name=fechaini]").val();
     var fechafinal  = $("input[name=fechafin]").val();
-    xmlhttp.open("GET", "http://localhost"+base_url+"/generate_data_candel/"+parameter+"/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
+    xmlhttp.open("GET", "http://rickyrugstocktracker.azurewebsites.net"+base_url+"/generate_data_candel/"+parameter+"/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
     xmlhttp.send();
    
 }
