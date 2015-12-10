@@ -75,7 +75,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'http://br-cdbr-azure-south-a.cloudapp.net',
+	'hostname' => 'br-cdbr-azure-south-a.cloudapp.net',
 	'username' => 'ba99ce9e6fcf27',
 	'password' => '870eedd3',
 	'database' => 'acsm_7eaf6bd882c3bb8',
