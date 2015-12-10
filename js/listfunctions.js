@@ -20,8 +20,9 @@ $(document).ready(function () {
                 }
             }
             var base_url = window.location;
+            
             var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2]+'/'+base_url.pathname.split('/')[3];
-          
+            console.log(url)
             xmlhttp.open("GET", "http://rickyrugstocktracker.azurewebsites.net/"+url+"/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
            
