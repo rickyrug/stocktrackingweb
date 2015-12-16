@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'br-cdbr-azure-south-a.cloudapp.net',
-	'username' => 'ba99ce9e6fcf27',
-	'password' => '870eedd3',
-	'database' => 'acsm_7eaf6bd882c3bb8',
+	'hostname' => 'trackingstocks.db.8003322.hostedresource.com',
+	'username' => 'trackingstocks',
+	'password' => 'm1Stocktr@cker',
+	'database' => 'trackingstocks',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
