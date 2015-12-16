@@ -74,7 +74,7 @@ and open the template in the editor.
                         <li><h4>Configuración</h4></li>
                         <li role="separator" class="divider"></li>
                         <li><?php echo anchor("configuration",'Gestion'); ?></li>
-                        
+                        <li><?php echo anchor("configuration",'Xolo '); ?></li>
                     </ul>
                 </div>
                 <!--END SIDE BAR -->
