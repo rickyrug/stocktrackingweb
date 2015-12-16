@@ -73,8 +73,8 @@ and open the template in the editor.
                     <ul class="nav nav-sidebar">
                         <li><h4>Configuración</h4></li>
                         <li role="separator" class="divider"></li>
-                        <li><?php echo anchor("portafolios",'Gestion'); ?></li>
-                        <li><a href="#">Reportes</a></li>
+                        <li><?php echo anchor("configuration",'Gestion'); ?></li>
+                        
                     </ul>
                 </div>
                 <!--END SIDE BAR -->
