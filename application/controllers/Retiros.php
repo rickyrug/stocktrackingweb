@@ -11,171 +11,165 @@
  *
  * @author rickyrug
  */
-class Retiros extends CI_Controller{
-    
-     public function index() {
+class Retiros extends CI_Controller {
+   
+
+    public function __construct() {
+        parent::__construct();
         $this->load->model('Operaciones_Model', '', TRUE);
-        $results = $this->Operaciones_Model->get_Operaciones_Model('RT');
-        $data['results']     = $results;
-        $data['title']       = 'Filtering';
-        $data['portafolios'] = $this->get_portafolios();
-        $this->load->helper(array('form', 'url', 'html'));
-        $this->load->library('form_validation');
-        $this->load->library('table');
+        $this->load->model('Portafolios_Model', '', TRUE);
+    }
+
+     /* Desplagar lista de resultados */
+
+    public function show_list($p_items = null) {
+        $per_page = 10;
+        if ($p_items == null) {
+            $results = $this->Operaciones_Model->get_Operaciones_Model('RT',null,$per_page);
+            $number_items = $this->Operaciones_Model->count_result('RT');
+        } else {
+            
+            $results = $this->Operaciones_Model->get_Operaciones_Model('RT',$p_items,$per_page);
+            $number_items =  $this->Operaciones_Model->count_result('RT');
+        }
+
+        $base_url = base_url();
+        $base_url = $base_url . 'index.php?/retiros/show_list/';
+        $this->load->helper('paginationconfig');
+
+
+
+        $this->pagination->initialize(generate_setup_pagination($base_url, $number_items, $per_page));
+
+        $data = array(
+            'title' => 'Retiros',
+            'retiros_list' => $results,
+            'paginacion' => $this->pagination->create_links(),
+            'resultados' => $p_items+10 .' of '.$number_items,
+        );
+
         $this->call_views('retiros/list', $data);
     }
+    
+    
+    /* Metodo que se llama por default y despliega la lista de registros que hay en la tabla operaciones de tipo RT */
 
-    public function add() {
-        
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
-        $this->load->library('calendar');
+    public function index() {
 
-        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
-        $this->form_validation->set_rules('fecha', 'Fecha', 'required');
-        $this->form_validation->set_rules('cantidad', 'Cantidad', 'required');
-
-        if ($this->form_validation->run() == FALSE) {
-            $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'retiros/add';
-            $data['labelcantidad'] = 'Cantidad: ';
-            $data['cantidad'] = array('name' => 'cantidad', 'value' => $this->form_validation->set_value('cantidad'));
-            $data['labelfecha'] = 'Fecha: ';
-            $data['fecha'] = array('name' => 'fecha', 'value' => $this->form_validation->set_value('fecha'));
-            $data['labelportafolios'] = "Portafolios: ";
-            $data['portafolios'] = $this->get_portafolios();
-            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
-            $data['btnguardar'] = array('guardar' => 'Guardar');
-
-            $this->call_views('retiros/form', $data);
-        } else {
-
-            $p_fecha         = $_POST['fecha'];
-            $p_cantidad      = $_POST['cantidad'];
-            $p_portafolios   = $_POST['portafolios'];
-            
-            if($p_portafolios === 0){
-                
-            }else{
-            
-            $this->load->model('Operaciones_Model', '', TRUE);
-            $this->Operaciones_Model->insert_Operaciones_Model($p_cantidad,$p_fecha, $p_portafolios, 
-                                                               'RT');
-
-            }
-            
-            
-            redirect('retiros', 'refresh');
-        }
-        
+        redirect('retiros/show_list', 'refresh');
     }
+
+    /* metodo utilitario que despliga las vistas completas, con header y foorter */
 
     private function call_views($p_view, $p_data = null) {
         $this->load->view('header');
         if ($p_data == null) {
             $this->load->view($p_view);
         } else {
-            $this->load->view($p_view, $p_data);
+            //  $this->load->view($p_view, $p_data);
+            $this->parser->parse($p_view, $p_data);
         }
-
         $this->load->view('footer');
     }
 
+    /* Metodo para eliminar operación por id */
+
     public function delete($p_idaportacion) {
-        $this->load->helper(array('url'));
-        $this->load->model('Operaciones_Model', '', TRUE);
+
         $this->Operaciones_Model->delete_Operaciones_Model($p_idaportacion);
-        redirect('aportacion', 'refresh');
+        redirect('retiros', 'refresh');
     }
 
-    public function edit() {
-        
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
-        $this->load->library('calendar');
+    public function show_addform() {
 
-        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
+
+        $time = now('America/Mexico_City');
+
+        /* Reglas para la forma */
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required|callback_validate_portafolios');
         $this->form_validation->set_rules('fecha', 'Fecha', 'required');
         $this->form_validation->set_rules('cantidad', 'Cantidad', 'required');
-        $this->form_validation->set_rules('idoperacion', 'ID operacion', 'required');
-        
-        if ($this->form_validation->run() == FALSE) {
-            $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'retiros/edit';
-            $data['labelcantidad'] = 'Cantidad: ';
-            $data['idoperacion'] = array('idoperacion'=>$this->form_validation->set_value('idoperacion'));
-            $data['cantidad'] = array('name' => 'cantidad', 'value' => $this->form_validation->set_value('cantidad'));
-            $data['labelfecha'] = 'Fecha: ';
-            $data['fecha'] = array('name' => 'fecha', 'value' => $this->form_validation->set_value('fecha'));
-            $data['labelportafolios'] = "Portafolios: ";
-            $data['portafolios'] = $this->get_portafolios();
-            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
-            $data['btnguardar'] = array('guardar' => 'Guardar');
+
+        if ($this->form_validation->run() == FALSE) { // se corre validación de reglas definidas 
+            //Array con los datos que se le van a enviar a la vista.
+            $data = array(
+                'accion' => 'retiros/show_addform',
+                'cantidad' => $this->form_validation->set_value('cantidad'),
+                'title' => 'Agregar retiros',
+                'portafolios' => $this->get_portafolios(),
+                'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
+                'fecha' => unix_to_human($time, TRUE, 'EU')
+            );
 
             $this->call_views('retiros/form', $data);
         } else {
-            
-           $p_fecha         = $_POST['fecha'];
-           $p_cantidad      = $_POST['cantidad'];
-           $p_portafolios   = $_POST['portafolios'];
-           $p_idoperacion   = $_POST['idoperacion'];
-            if($p_portafolios === 0){
-                
-            }else{
-            $this->load->model('Operaciones_Model', '', TRUE);
-            $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion,'RT',$p_cantidad,
-                                                               $p_fecha,$p_portafolios);
-            }   
+
+            $p_fecha = $this->input->post('fecha');
+            $p_cantidad = $this->input->post('cantidad');
+            $p_portafolios = $this->input->post('portafolios');
+
+
+            $this->Operaciones_Model->insert_Operaciones_Model($p_cantidad, $p_fecha, $p_portafolios, 'RT');
             redirect('retiros', 'refresh');
         }
     }
 
-    public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
+    /* Metodo para mostrar y editar los retiros */
 
-        $time = now('America/Mexico_City');
+    public function show_editform($p_idoperacion = null) {
 
-        $data['accion'] = 'retiros/add';
-        $data['labelcantidad'] = 'Cantidad: ';
-        $data['cantidad'] = array('name' => 'cantidad');
-        $data['labelfecha'] = 'Fecha: ';
-        $data['fecha'] = array('name' => 'fecha', 'value' => unix_to_human($time, TRUE, 'EU'));
-        $data['labelportafolios'] = "Portafolios: ";
-        $data['portafolios'] = $this->get_portafolios();
-        $data['btnguardar'] = array('guardar' => 'Guardar');
-       
-        $this->call_views('retiros/form', $data);
+        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required|callback_validate_portafolios');
+        $this->form_validation->set_rules('fecha', 'Fecha', 'required');
+        $this->form_validation->set_rules('cantidad', 'Cantidad', 'required');
+        $this->form_validation->set_rules('idoperacion', 'ID operacion', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            if ($p_idoperacion != null) {
+
+                $result = $this->Operaciones_Model->find_by_id($p_idoperacion);
+                $data = array(
+                    'idoperacion' => $result[0]->idaportaciones,
+                    'accion' => 'retiros/show_editform',
+                    'cantidad' => $result[0]->cantidad,
+                    'title' => 'Editar retiros',
+                    'portafolios' => $this->get_portafolios(),
+                    'selectedPortafolios' => $result[0]->portafolios,
+                    'fecha' => $result[0]->fecha
+                );
+            } else {
+
+                $data = array(
+                    'idoperacion' => $this->form_validation->set_value('idoperacion'),
+                    'accion' => 'retiros/show_editform',
+                    'cantidad' => $this->form_validation->set_value('cantidad'),
+                    'title' => 'Editar retiros',
+                    'portafolios' => $this->get_portafolios(),
+                    'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
+                    'fecha' => $this->form_validation->set_value('fecha')
+                );
+            }
+            $this->call_views('retiros/form', $data);
+        } else {
+
+            $p_fecha = $this->input->post('fecha');
+            $p_cantidad = $this->input->post('cantidad');
+            $p_portafolios = $this->input->post('portafolios');
+            $p_idoperacion = $this->input->post('idoperacion');
+
+
+            $this->Operaciones_Model->update_Operaciones_Model($p_idoperacion, 'RT', $p_cantidad, $p_fecha, $p_portafolios);
+
+
+            redirect('retiros', 'refresh');
+        }
     }
 
-    public function show_editform($p_idoperacion) {
-        
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
-        
-        $this->load->model('Operaciones_Model', '', TRUE);
-        $result = $this->Operaciones_Model->find_by_id($p_idoperacion);
-
-        $time = now('America/Mexico_City');
-        
-        $data['idoperacion'] = array('idoperacion'=>$result[0]->idaportaciones);
-        $data['accion'] = 'retiros/edit';
-        $data['labelcantidad'] = 'Cantidad: ';
-        $data['cantidad'] = array('name' => 'cantidad','value'=>$result[0]->cantidad);
-        $data['labelfecha'] = 'Fecha: ';
-        $data['fecha'] = array('name' => 'fecha', 'value' => $result[0]->fecha);
-        $data['labelportafolios'] = "Portafolios: ";
-        $data['portafolios'] = $this->get_portafolios();
-        $data['selectedPortafolios'] =$result[0]->portafolios;
-        $data['btnguardar'] = array('guardar' => 'Guardar');
-       
-        $this->call_views('retiros/form', $data);
-        
-    }
+    /* Metdo para obtener toda la lista de portafolios */
 
     private function get_portafolios() {
         $var_portafolios_list = array();
-        $this->load->model('Portafolios_Model', '', TRUE);
+
         $results = $this->Portafolios_Model->get_Portafolios_Model_fields('idportafolios,nombre');
         $var_portafolios_list[] = "";
         foreach ($results as $portafolios) {
@@ -185,5 +179,16 @@ class Retiros extends CI_Controller{
         return $var_portafolios_list;
     }
 
-    
+    /* Metodo para validar que el portafolios no se vacio */
+
+    public function validate_portafolios($p_portafolios) {
+
+        if ($p_portafolios == 0) {
+            $this->form_validation->set_message('validate_portafolios', 'The {field} field is required.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
 }

@@ -1,3 +1,6 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -70,12 +73,13 @@ and open the template in the editor.
                         <li><?php echo anchor("resultados",'Gestion'); ?></li>
                         <li><?php echo anchor('reportes', 'Reportes') ?></li>
                     </ul>
-                    <ul class="nav nav-sidebar">
+                 <!--   <ul class="nav nav-sidebar">
                         <li><h4>Configuración</h4></li>
                         <li role="separator" class="divider"></li>
-                        <li><?php echo anchor("configuration",'Gestion'); ?></li>
-                        <li><?php echo anchor("configuration",'Xolo '); ?></li>
+                        <li><?php /*echo anchor("configuration",'Gestion');*/ ?></li>
+                        <li><?php /*echo anchor("configuration",'Xolo ');*/ ?></li>
                     </ul>
+                 -->
                 </div>
                 <!--END SIDE BAR -->
                 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">  
