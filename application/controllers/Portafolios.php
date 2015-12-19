@@ -1,5 +1,7 @@
 <?php
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -13,161 +15,147 @@
  */
 class Portafolios extends CI_Controller {
 
-    public function index() {
+    public function __construct() {
+        parent::__construct();
         $this->load->model('Portafolios_Model', '', TRUE);
-        $results = $this->Portafolios_Model->get_Portafolios_Model();
-        $data['results'] = $results;
+        $this->load->helper('paginationconfig');
+    }
 
-        $this->load->helper(array('form', 'url', 'html'));
-        $this->load->library('form_validation');
-        $this->load->library('table');
+    public function show_list($p_items = null) {
+        $per_page = 10;
+        if ($p_items == null) {
+            $results = $this->Portafolios_Model->get_Portafolios_Model(null, $per_page);
+            $number_items = $this->Portafolios_Model->count_result('AP');
+        } else {
+
+            $results = $this->Portafolios_Model->get_Portafolios_Model($p_items, $per_page);
+            $number_items = $this->Portafolios_Model->count_result('AP');
+        }
+
+
+        $base_url = base_url();
+        $base_url = $base_url . 'index.php?/aportacion/show_list/';
+
+
+        $this->pagination->initialize(generate_setup_pagination($base_url, $number_items, $per_page));
+
+        $data = array(
+            'title' => 'Portafolios',
+            'portafolios_list' => $results,
+            'paginacion' => $this->pagination->create_links(),
+            'resultados' => count($results) . ' of ' . $number_items,
+        );
+
         $this->call_views('portafolios/list', $data);
     }
 
-    public function add() {
+    public function index() {
 
-        $this->load->helper(array('form', 'url', 'html'));
-        $this->load->library('form_validation');
-        $this->load->library('calendar');
-
-        $this->form_validation->set_rules('nombre', 'Nombre de portafolios', 'required');
-        $this->form_validation->set_rules('valorinicial', 'Valor inicial', 'required');
-        $this->form_validation->set_rules('fechacreacion', 'Fecha creacion', 'required');
-        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
-        
-        if ($this->form_validation->run() == FALSE) {
-            $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'portafolios/add';
-            $data['labelnombre'] = 'Nombre: ';
-            $data['nombre'] = array('name' => 'nombre', 'value' => $this->form_validation->set_value('nombre'));
-            $data['labelvalorinicial'] = 'Valor inicial: ';
-            $data['valorinicial'] = array('name' => 'valorinicial', 'value' => $this->form_validation->set_value('valorinicial'));
-            $data['labelfechacreacion'] = 'Fecha creación: ';
-            $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $this->form_validation->set_value('fechacreacion'));
-            $data['btnguardar'] = array('guardar' => 'Guardar');
-            $data['labelportafoliospadre'] = 'Portafolios Padre: ';
-            $data['portafolios'] = $this->get_portafolios();
-            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
-
-            $this->call_views('portafolios/form', $data);
-        } else {
-
-            $p_nombre           = $_POST['nombre'];
-            $p_valorinicial     = $_POST['valorinicial'];
-            $p_fechacreacion    = $_POST['fechacreacion'];
-            $p_portafoliospadre = $_POST['portafolios'];
-            
-            if($p_portafoliospadre == 0){
-                $p_portafoliospadre = null;
-            }
-            
-            $this->load->model('Portafolios_Model', '', TRUE);
-            $this->Portafolios_Model->insert_Portafolios_Model($p_nombre, $p_valorinicial, 
-                                                               $p_fechacreacion,$p_portafoliospadre);
-
-            redirect('portafolios', 'refresh');
-        }
+        redirect('portafolios/show_list', 'refresh');
     }
 
     public function show_addform() {
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
+
 
         $time = now('America/Mexico_City');
 
-        $data['accion'] = 'portafolios/add';
-        $data['labelnombre'] = 'Nombre: ';
-        $data['nombre'] = array('name' => 'nombre');
-        $data['labelvalorinicial'] = 'Valor inicial: ';
-        $data['valorinicial'] = array('name' => 'valorinicial');
-        $data['labelfechacreacion'] = 'Fecha creación: ';
-        $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => unix_to_human($time, TRUE, 'EU'));
-        $data['portafolios'] = $this->get_portafolios();
-        $data['labelportafoliospadre'] = 'Portafolios Padre: ';
-        $data['btnguardar'] = array('guardar' => 'Guardar');
-
-        $this->call_views('portafolios/form', $data);
-    }
-
-    public function show_editform($p_idportafolios) {
-
-        $this->load->helper(array('form', 'url', 'date','html'));
-        $this->load->library('form_validation');
-
-        $this->load->model('Portafolios_Model', '', TRUE);
-        $selected_portafolios = $this->Portafolios_Model->find_by_id($p_idportafolios);
-
-        $time = now('America/Mexico_City');
-
-        $data['accion'] = 'portafolios/edit';
-        $data['labelnombre'] = 'Nombre: ';
-        $data['nombre'] = array('name' => 'nombre', 'value' => $selected_portafolios[0]->nombre);
-        $data['labelvalorinicial'] = 'Valor inicial: ';
-        $data['valorinicial'] = array('name' => 'valorinicial', 'value' => $selected_portafolios[0]->valorinicial);
-        $data['labelfechacreacion'] = 'Fecha creación: ';
-        $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $selected_portafolios[0]->fechacreacion);
-        $data['btnguardar'] = array('guardar' => 'Guardar');
-        $data['idportafolios'] = array('idportafolios' => $selected_portafolios[0]->idportafolios);
-        $data['idportafolios_delete'] = $selected_portafolios[0]->idportafolios;
-        $data['labelportafoliospadre'] = 'Portafolios Padre: ';
-        $data['portafolios'] = $this->get_portafolios();
-        $data['selectedPortafolios'] = $selected_portafolios[0]->portafoliospadre;
-        $this->call_views('portafolios/form', $data);
-    }
-
-    public function edit() {
-
-        $this->load->helper(array('form', 'url','html'));
-        $this->load->library('form_validation');
-        $this->load->library('calendar');
-
+        //se agregan reglas a la forma
         $this->form_validation->set_rules('nombre', 'Nombre de portafolios', 'required');
         $this->form_validation->set_rules('valorinicial', 'Valor inicial', 'required');
         $this->form_validation->set_rules('fechacreacion', 'Fecha creacion', 'required');
-        $this->form_validation->set_rules('idportafolios', 'idportafolios', 'required');
-        $this->form_validation->set_rules('portafolios', 'Portafolios', 'required');
-        
+
         if ($this->form_validation->run() == FALSE) {
-            $data['error'] = $this->form_validation->error_array();
-            $data['accion'] = 'portafolios/edit';
-            $data['labelnombre'] = 'Nombre: ';
-            $data['nombre'] = array('name' => 'nombre', 'value' => $this->form_validation->set_value('nombre'));
-            $data['labelvalorinicial'] = 'Valor inicial: ';
-            $data['valorinicial'] = array('name' => 'valorinicial', 'value' => $this->form_validation->set_value('valorinicial'));
-            $data['labelfechacreacion'] = 'Fecha creación: ';
-            $data['fechacreacion'] = array('name' => 'fechacreacion', 'value' => $this->form_validation->set_value('fechacreacion'));
-            $data['btnguardar'] = array('guardar' => 'Guardar');
-            $data['idportafolios'] = array('idportafolios' => $this->form_validation->set_value('idportafolios'));
-             $data['labelportafoliospadre'] = 'Portafolios Padre: ';
-            $data['portafolios'] = $this->get_portafolios();
-            $data['selectedPortafolios'] = $this->form_validation->set_value('portafolios');
+
+            //Array con los datos que se le van a enviar a la vista.
+            $data = array(
+                'accion' => 'portafolios/show_addform',
+                'title' => 'Agregar portafolios',
+                'nombre' => $this->form_validation->set_value('nombre'),
+                'valorinicial' => $this->form_validation->set_value('valorinicial'),
+                'portafolios' => $this->get_portafolios(),
+                'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
+                'fechacreacion' => unix_to_human($time, TRUE, 'EU')
+            );
+
             $this->call_views('portafolios/form', $data);
         } else {
-            $p_idportafolios = $_POST['idportafolios'];
-            $p_nombre = $_POST['nombre'];
-            $p_valorinicial = $_POST['valorinicial'];
-            $p_fechacreacion = $_POST['fechacreacion'];
-            $p_portafoliospadre = $_POST['portafolios'];
-            
-            if($p_portafoliospadre == 0){
+
+            $p_nombre           = $this->input->post('nombre');
+            $p_valorinicial     = $this->input->post('valorinicial');
+            $p_fechacreacion    = $this->input->post('fechacreacion');
+            $p_portafoliospadre = $this->input->post('portafolios');
+
+            if ($p_portafoliospadre == 0) {
                 $p_portafoliospadre = null;
             }
-            $this->load->model('Portafolios_Model', '', TRUE);
-            $this->Portafolios_Model->update_Portafolios_Model($p_idportafolios, $p_nombre, 
-                                                               $p_valorinicial, $p_fechacreacion,
-                                                               $p_portafoliospadre
-            );
+
+
+            $this->Portafolios_Model->insert_Portafolios_Model($p_nombre, $p_valorinicial, $p_fechacreacion, $p_portafoliospadre);
 
             redirect('portafolios', 'refresh');
         }
     }
 
+    public function show_editform($p_idportafolios=NULL) {
+
+        //se agregan reglas a la forma
+        $this->form_validation->set_rules('nombre', 'Nombre de portafolios', 'required');
+        $this->form_validation->set_rules('valorinicial', 'Valor inicial', 'required');
+        $this->form_validation->set_rules('fechacreacion', 'Fecha creacion', 'required');
+
+        if ($this->form_validation->run() == FALSE) {
+            if ($p_idportafolios != NULL) {
+                $result = $this->Portafolios_Model->find_by_id($p_idportafolios);
+                
+                $data = array(
+                    'accion' => 'portafolios/show_editform',
+                    'title' => 'Editar portafolios',
+                    'idportafolios'=> $result[0]->idportafolios,
+                    'nombre' => $result[0]->nombre,
+                    'valorinicial' => $result[0]->valorinicial,
+                    'portafolios' => $this->get_portafolios(),
+                    'selectedPortafolios' => $result[0]->portafoliospadre,
+                    'fechacreacion' => $result[0]->fechacreacion,
+                );
+            } else {
+
+                //Array con los datos que se le van a enviar a la vista.
+                $data = array(
+                    'accion'              => 'portafolios/show_editform',
+                    'title'               => 'Editar portafolios',
+                    'nombre'              => $this->form_validation->set_value('nombre'),
+                    'idportafolios'       => $this->form_validation->set_value('idportafolios'),
+                    'valorinicial'        => $this->form_validation->set_value('valorinicial'),
+                    'portafolios'         => $this->get_portafolios('idportafolios'),
+                    'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
+                    'fechacreacion'       => $this->form_validation->set_value('fechacreacion')
+                );
+            }
+            $this->call_views('portafolios/form', $data);
+        } else {
+            $p_idportafolios    = $this->input->post('idportafolios');
+            $p_nombre           = $this->input->post('nombre'); 
+            $p_valorinicial     = $this->input->post('valorinicial'); 
+            $p_fechacreacion    = $this->input->post('fechacreacion'); 
+            $p_portafoliospadre = $this->input->post('portafolios');  
+
+            if ($p_portafoliospadre == 0) {
+                $p_portafoliospadre = null;
+            }
+           
+            $this->Portafolios_Model->update_Portafolios_Model($p_idportafolios, 
+                    $p_nombre, $p_valorinicial, $p_fechacreacion, $p_portafoliospadre);
+
+            redirect('portafolios', 'refresh');
+        }
+
+    }
+
+
     public function delete($p_Portafolios) {
-        $this->load->helper(array('form', 'url'));
-        $this->load->model('Portafolios_Model','',TRUE);
+
         $this->Portafolios_Model->delete_Portafolios_Model($p_Portafolios);
         redirect('portafolios', 'refresh');
-        
     }
 
     private function call_views($p_view, $p_data = null) {
@@ -175,7 +163,8 @@ class Portafolios extends CI_Controller {
         if ($p_data == null) {
             $this->load->view($p_view);
         } else {
-            $this->load->view($p_view, $p_data);
+
+            $this->parser->parse($p_view, $p_data);
         }
 
         $this->load->view('footer');
@@ -192,5 +181,5 @@ class Portafolios extends CI_Controller {
 
         return $var_portafolios_list;
     }
-   
+
 }

@@ -25,7 +25,7 @@ class Aportacion extends CI_Controller {
     public function show_list($p_items = null) {
         $per_page = 10;
         if ($p_items == null) {
-            $results = $this->Operaciones_Model->get_Operaciones_Model('RT',null,$per_page);
+            $results = $this->Operaciones_Model->get_Operaciones_Model('AP',null,$per_page);
             $number_items = $this->Operaciones_Model->count_result('AP');
         } else {
             
@@ -124,7 +124,6 @@ class Aportacion extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             if ($p_idoperacion != null) {
 
-                $this->load->model('Operaciones_Model', '', TRUE);
                 $result = $this->Operaciones_Model->find_by_id($p_idoperacion);
                 $data = array(
                     'idoperacion' => $result[0]->idaportaciones,
@@ -147,6 +146,7 @@ class Aportacion extends CI_Controller {
                     'fecha' => $this->form_validation->set_value('fecha')
                 );
             }
+             $this->call_views('aportaciones/form', $data);
         } else {
 
             $p_fecha = $this->input->post('fecha');
@@ -163,8 +163,6 @@ class Aportacion extends CI_Controller {
             redirect('aportacion/show_list', 'refresh');
         }
 
-      
-        $this->call_views('aportaciones/form', $data);
     }
     
  /*Metdo para obtener toda la lista de portafolios*/

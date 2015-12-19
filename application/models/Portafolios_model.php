@@ -22,12 +22,18 @@ class Portafolios_model extends CI_Model{
         parent::__construct();
     }
 
-    public function get_Portafolios_Model(){
+    public function get_Portafolios_Model($p_start = null, $p_limit = null){
       
+        if ($p_limit != null && $p_start == null) {
+            $this->db->limit($p_limit);
+        } else if ($p_start != NULL && $p_limit != null) {
+            $this->db->limit($p_limit, $p_start);
+            //  $this->db->limit($p_start,$p_limit);
+        }
+        
         $query = $this->db->get('portafolios');
         return $query->result();
-        
-        
+ 
     }
     
     public function get_Portafolios_Model_fields($p_fields) {
@@ -98,5 +104,13 @@ class Portafolios_model extends CI_Model{
     public function delete_Portafolios_Model($p_idPortafolios_Model){
         $this->db->where_in('idportafolios', $p_idPortafolios_Model);
         $this->db->delete('portafolios');
+    }
+    
+    public function count_result() {
+        $this->db->select('*');
+        $this->db->from('portafolios');
+
+        $query = $this->db->get();
+        return $query->num_rows();
     }
 }
