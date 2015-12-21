@@ -151,7 +151,8 @@ class Resultados extends CI_Controller {
                 'portafolios' => $this->get_portafolios(),
                 'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
                 'profit' => $this->form_validation->set_value('profit'),
-                'rendimiento' => $this->form_validation->set_value('rendimiento')
+                'rendimiento' => $this->form_validation->set_value('rendimiento'),
+                'base_url' => base_url()
             );
 
             $this->call_views('resultados/form', $data);
@@ -189,7 +190,8 @@ class Resultados extends CI_Controller {
                     'portafolios'         => $this->get_portafolios(),
                     'selectedPortafolios' => $result[0]->idportafolios,
                     'profit'              => $result[0]->profit,
-                    'rendimiento'         => $result[0]->rendimiento
+                    'rendimiento'         => $result[0]->rendimiento,
+                    'base_url' => base_url()
                 );
             } else {
                 $data = array(
@@ -201,7 +203,8 @@ class Resultados extends CI_Controller {
                 'portafolios'         => $this->get_portafolios(),
                 'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
                 'profit'              => $this->form_validation->set_value('profit'),
-                'rendimiento'         => $this->form_validation->set_value('rendimiento')
+                'rendimiento'         => $this->form_validation->set_value('rendimiento'),
+                'base_url' => base_url()
             );
             }
             $this->call_views('resultados/form', $data);

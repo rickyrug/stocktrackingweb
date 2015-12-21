@@ -10,6 +10,7 @@ echo validation_errors();
 ?>
 
 <input type="hidden" name="idresultado" value="{idresultado}" />
+<input type="hidden" name="base_url" value="{base_url}" />
 <div class="form-group">
     <label for="inputPortafolios" class="col-sm-2 control-label">Portafolios</label>
     <div class="col-sm-10">

@@ -11,6 +11,7 @@ $(document).ready(function () {
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();
             var var_valor       = $('input[name=valor]').val();
+            var var_base_url    = $('input[name=base_url]').val();
            
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
@@ -24,9 +25,9 @@ $(document).ready(function () {
 //            var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2]+'/'+base_url.pathname.split('/')[3];
               var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2];
  
-            
+            //  console.log(var_base_url);
            // xmlhttp.open("GET", "http://localhost/"+url+"/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
-             xmlhttp.open("GET", "http://localhost/stocktracker/index.php?/resultados/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
+            xmlhttp.open("GET", var_base_url+"index.php?/resultados/calculate_profit/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
            
        }
@@ -38,6 +39,7 @@ $(document).ready(function () {
             var var_fecha       = $('input[name=fecha]').val();
             var var_portafolios = $('select[name=portafolios]').val();
             var var_valor       = $('input[name=valor]').val();
+            var var_base_url    = $('input[name=base_url]').val();
             
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function () {
@@ -50,7 +52,7 @@ $(document).ready(function () {
 //            var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2]+'/'+base_url.pathname.split('/')[3];
               var url      = base_url.pathname.split('/')[1]+'/'+base_url.pathname.split('/')[2];
 //            xmlhttp.open("GET", "http://rickyrugstocktracker.azurewebsites.net/"+url+"/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
-              xmlhttp.open("GET", "http://localhost/stocktracker/index.php?/resultados/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
+              xmlhttp.open("GET", var_base_url+"index.php?/resultados/calculate_rendimiento/" + var_portafolios + "/" + var_valor + "/" + var_fecha, true); 
             xmlhttp.send();
         }
 
