@@ -23,7 +23,16 @@ class Resultados_model extends CI_Model{
         parent::__construct();
     }
     
-    public function get_resultados_model(){
+    public function get_resultados_model($p_start = null, $p_limit = null){
+        
+         if ($p_limit != null && $p_start == null) {
+            $this->db->limit($p_limit);
+        } else if ($p_start != NULL && $p_limit != null) {
+            $this->db->limit($p_limit, $p_start);
+            //  $this->db->limit($p_start,$p_limit);
+        }
+        
+        
         $this->db->select('resultados.idresultados, resultados.fecha, portafolios.nombre as portafolios,
        resultados.valor,resultados.profit,resultados.rendimiento, portafolios.idportafolios');
         $this->db->from('resultados');
@@ -51,12 +60,22 @@ class Resultados_model extends CI_Model{
         return $query->result();
     }
     
-    public function get_resultados_by_portafolios($p_idportafolios){
+    public function get_resultados_by_portafolios($p_idportafolios, $p_start = null, $p_limit = null){
+        
+        if ($p_limit != null && $p_start == null) {
+            $this->db->limit($p_limit);
+        } else if ($p_start != NULL && $p_limit != null) {
+            $this->db->limit($p_limit, $p_start);
+            //  $this->db->limit($p_start,$p_limit);
+        }
+
+        
         $this->db->select('resultados.idresultados, resultados.fecha, portafolios.nombre as portafolios,
        resultados.valor,resultados.profit,resultados.rendimiento, portafolios.idportafolios');
         $this->db->from('resultados');
         $this->db->join('portafolios', 'resultados.portafolios = portafolios.idportafolios');
         $this->db->where('portafolios',$p_idportafolios);
+        $this->db->order_by("fecha", "desc"); 
         $query = $this->db->get();
         return $query->result();
     }
@@ -74,7 +93,7 @@ class Resultados_model extends CI_Model{
     }
     
     public function update_resultados($p_idresultado,$p_fecha = null,
-                                      $p_valor = nul, $p_profit = null,
+                                      $p_valor = null, $p_profit = null,
                                       $p_rendimiento = null, $p_portafolios = null
             ){
         if($p_fecha != null){
@@ -160,4 +179,16 @@ class Resultados_model extends CI_Model{
         $query = $this->db->get();
         return $query->result();
     }
+    
+       public function count_result($p_portafolios = null) {
+        $this->db->select('*');
+        $this->db->from('resultados');
+
+        if ($p_portafolios != NULL) {
+            $this->db->where('portafolios', $p_portafolios);
+        }
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
 }
