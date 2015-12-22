@@ -13,6 +13,13 @@
  */
 class Reportes extends CI_Controller {
 
+    public function __construct() {
+        parent::__construct();
+         $this->load->model('Portafolios_Model', '', TRUE);
+         $this->load->model('Resultados_Model', '', TRUE);
+         $this->load->model('Operaciones_Model', '', TRUE);
+    }
+    
     public function index() {
 
         $data['titlederecha'] = "Datos";
@@ -40,7 +47,7 @@ class Reportes extends CI_Controller {
     }
 
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-          $this->load->model('Portafolios_Model', '', TRUE);
+         
           
         if ($p_portafolios == 0) {
            
@@ -72,7 +79,7 @@ class Reportes extends CI_Controller {
 
     private function get_open($p_field, $p_month, $p_year, $p_portafolios) {
         
-        $this->load->model('Resultados_Model', '', TRUE);
+        
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
@@ -95,7 +102,7 @@ class Reportes extends CI_Controller {
     }
 
     private function get_close($p_field, $p_month, $p_year, $p_portafolios) {
-        $this->load->model('Resultados_Model', '', TRUE);
+      
         $this->load->library(array('calendar'));
         $var_fechainicial = $p_year . '-' . $p_month . '-' . '01';
         $var_fechafinal   = $p_year . '-' . $p_month . '-' . $this->calendar->get_total_days($p_month, $p_year);
@@ -119,9 +126,9 @@ class Reportes extends CI_Controller {
 
     private function get_portafolios() {
         $var_portafolios_list = array();
-        $this->load->model('Portafolios_Model', '', TRUE);
+   
         $results = $this->Portafolios_Model->get_Portafolios_Model_fields('idportafolios,nombre');
-        $var_portafolios_list[] = "";
+        $var_portafolios_list[] = "Todos";
         foreach ($results as $portafolios) {
             $var_portafolios_list[$portafolios->idportafolios] = $portafolios->nombre;
         }
@@ -130,7 +137,7 @@ class Reportes extends CI_Controller {
     }
 
     private function collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-        $this->load->model('Resultados_Model', '', TRUE);
+   
         $candel_data = array();
         $var_open = 0.0;
         $var_close = 0.0;
@@ -179,7 +186,7 @@ class Reportes extends CI_Controller {
 
     private function get_operaciones($p_portafolios, $p_fecha,$p_operacion){
       $var_total = 0.0;      
-      $this->load->model('Operaciones_Model', '', TRUE);
+      
       
       foreach ($p_portafolios as $portafolio){
           $var_portafolios_ap = $this->Operaciones_Model->get_sum_operacion($p_operacion, $portafolio, $p_fecha);
@@ -191,7 +198,7 @@ class Reportes extends CI_Controller {
     }
     
     private function get_portafolios_initial_value($p_portafolios){
-        $this->load->model('Portafolios_Model', '', TRUE);
+       
         $var_valorinicial = 0.0;
   
             foreach ($p_portafolios as $portafolio){
@@ -204,7 +211,7 @@ class Reportes extends CI_Controller {
    
     
     private function get_valid_date($p_fechaini,$p_fechafinal){
-        $this->load->model('Resultados_Model', '', TRUE);
+       
        $result = $this->Resultados_Model->get_max_date($p_fechaini,$p_fechafinal);
        if(count($result)>0){
            return $result[0]->fecha;
