@@ -22,16 +22,18 @@ class Reportes extends CI_Controller {
     
     public function index() {
 
-        $data['titlederecha'] = "Datos";
-        $data['titleizquierda'] = "Grafica";
-        $data['portafolios'] = $this->get_portafolios();
-        $data['dropdownactions'] =  array(
-                                     /*   'onChange' => 'drawChart()',*/
-                                        'class'    => 'form-control'
-                                         );
-        $this->load->helper(array('form', 'url', 'html'));
+        $time_now = now('America/Mexico_City');
+        $time_past = $time_now - $this->initial_date_generator(365);
+         $data = array(
+            'titlederecha' => "Datos",
+            'titleizquierda' => "Grafica",
+            'portafolios' => $this->get_portafolios(),
+            'base_url'   => base_url(),
+            'fecha_ini' =>  unix_to_human($time_past, TRUE, 'EU'),
+            'fecha_fin' =>  unix_to_human($time_now, TRUE, 'EU'),
         
-        $this->load->library('table');
+        );
+        
         $this->call_views('reportes/reporte', $data);
     }
 
@@ -40,7 +42,7 @@ class Reportes extends CI_Controller {
         if ($p_data == null) {
             $this->load->view($p_view);
         } else {
-            $this->load->view($p_view, $p_data);
+            $this->parser->parse($p_view, $p_data);
         }
 
         $this->load->view('footer');
@@ -218,5 +220,11 @@ class Reportes extends CI_Controller {
        }else{
           return 0; 
        }
+    }
+    
+    private function initial_date_generator($p_days_lapse){
+        
+        $var_seconds = $p_days_lapse * 24 * 60 * 60;
+        return $var_seconds;
     }
 }

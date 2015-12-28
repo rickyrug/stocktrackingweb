@@ -31,7 +31,7 @@ class Main extends CI_Controller{
            $encpass = $this->encryption->decrypt($encpassdb);
            
            if ($encpass === $psw){
-               echo 'login auth';
+//               echo 'login auth';
                 redirect('main/main_page', 'refresh');
            }
            

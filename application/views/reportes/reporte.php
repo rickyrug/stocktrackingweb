@@ -1,18 +1,18 @@
    <div class="row">
         <div class="col-md-8">
-            <h2><?php echo $titleizquierda; ?></h2>
+            <h2>{titleizquierda}</h2>
              <div id="chart_div"></div>
         </div>
         <div class="col-md-4">
             <div class="row">
-                <h3> <?php echo $titlederecha; ?></h3>
+                <h3>{titlederecha}</h3>
             </div>
-            
+            <input type="hidden" name="base_url" value="{base_url}" />
             <div class="row">
                 <div class="col-md-12 ">
                     <div class="input-group">
                         <span class="input-group-addon">Fecha Inicio</span>
-                        <input class="form-control" id="fechaini" type="text" name="fechaini" value="" placeholder="Fecha inicio"/>
+                        <input class="form-control" id="fechaini" type="text" name="fechaini" value="{fecha_ini}" placeholder="Fecha inicio"/>
                     </div>
                     
                 </div>
@@ -21,7 +21,7 @@
                 <div class="col-md-12 ">
                     <div class="input-group">
                         <span class="input-group-addon">Fecha Final</span>
-                        <input class="form-control" id="fechafin" type="text" name="fechafin" value="" placeholder="Fecha fin"/>
+                        <input class="form-control" id="fechafin" type="text" name="fechafin" value="{fecha_fin}" placeholder="Fecha fin"/>
                     </div>
                     
                 </div>
@@ -45,7 +45,7 @@
                     <div class="input-group">
                         <span class="input-group-addon">Portafolios:</span>
                         <?php
-                        echo form_dropdown('portafolios', $portafolios, '', $dropdownactions);
+                        echo form_dropdown('portafolios', $portafolios, '', 'id="inputPortafolios" class="form-control"');
                         ?>
                     </div>
                     
