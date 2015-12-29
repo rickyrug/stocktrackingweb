@@ -21,16 +21,21 @@ class Reportes extends CI_Controller {
     }
     
     public function index() {
-
+        
         $time_now = now('America/Mexico_City');
+        
         $time_past = $time_now - $this->initial_date_generator(365);
+        $createDate_past = new DateTime(unix_to_human($time_past, TRUE, 'EU'));
+        $createDate_now  = new DateTime(unix_to_human($time_now, TRUE, 'EU'));
          $data = array(
             'titlederecha' => "Datos",
             'titleizquierda' => "Grafica",
             'portafolios' => $this->get_portafolios(),
             'base_url'   => base_url(),
-            'fecha_ini' =>  unix_to_human($time_past, TRUE, 'EU'),
-            'fecha_fin' =>  unix_to_human($time_now, TRUE, 'EU'),
+        //    'fecha_ini' =>  unix_to_human($time_past),
+             'fecha_ini' =>  $createDate_past->format('Y-m-d'),
+         //   'fecha_fin' =>  unix_to_human($time_now, TRUE, 'EU'),
+              'fecha_fin' =>  $createDate_now->format('Y-m-d'),
         
         );
         
