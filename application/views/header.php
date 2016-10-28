@@ -38,7 +38,8 @@ and open the template in the editor.
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Stock Tracker</a>
+                   <!-- <a class="navbar-brand" href="#">Stock Tracker</a> -->
+                   <?php echo anchor("main/main_page","Stock Tracker",array('class'=>'navbar-brand'))?>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">

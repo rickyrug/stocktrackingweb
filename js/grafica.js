@@ -49,7 +49,7 @@ function drawChart() {
     var fechainicio = $("input[name=fechaini]").val();
     var fechafinal  = $("input[name=fechafin]").val();
     var base_url    = $("input[name=base_url]").val();
-    console.log(base_url);
+    //console.log(base_url);
     xmlhttp.open("GET", base_url+"index.php?/reportes/generate_data_candel/"+parameter+"/"+fechainicio+"/"+fechafinal+"/"+portafolios, true);
     xmlhttp.send();
    
