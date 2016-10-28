@@ -71,16 +71,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   | The $query_builder variables lets you determine whether or not to load
   | the query builder class.
  */
-$active_group = 'default';
+/*$active_group = 'default';*/
+$active_group = 'test';
 $query_builder = TRUE;
 
 $db['default'] = 
             array(
                 'dsn' => '',
-                'hostname' => 'trackingstocks.db.8003322.hostedresource.com',
-                'username' => 'trackingstocks',
-                'password' => 'm1Stocktr@cker',
-                'database' => 'trackingstocks',
+                'hostname' => '',
+                'username' => '',
+                'password' => '',
+                'database' => '',
                 'dbdriver' => 'mysqli',
                 'dbprefix' => '',
                 'pconnect' => FALSE,
