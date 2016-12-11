@@ -215,7 +215,7 @@ class Resultados_model extends CI_Model{
     
     
     public function get_last_result_bydateasc($p_portafolios,$p_resultnumber){
-        $string = '* 
+        $stringwithportafolios = '* 
             from 
                     (select * 
                             from resultados 
@@ -226,7 +226,27 @@ class Resultados_model extends CI_Model{
                  ) 
             resultados 
             order by resultados.fecha asc ';
-        $querystring = sprintf($string, $p_portafolios,$p_resultnumber);
+        
+        $stringwithoutportafolios = '* 
+            from 
+                    (select resultados.fecha, sum(resultados.valor) valor
+                            from resultados 
+                    inner join portafolios
+                    on resultados.portafolios = portafolios.idportafolios
+                    where portafolios.portafoliospadre is null
+                    group by day(resultados.fecha),month(resultados.fecha), year(resultados.fecha)
+                    order by fecha desc limit %d
+                 ) 
+            resultados 
+            order by resultados.fecha asc ';
+        
+        if($p_portafolios != 'ZZ'){
+            $querystring = sprintf($stringwithportafolios, $p_portafolios,$p_resultnumber);
+        }else{
+            $querystring = sprintf($stringwithoutportafolios, $p_resultnumber);
+        }
+        
+        
         $this->db->select($querystring);
         $query = $this->db->get();
         return $query->result();
