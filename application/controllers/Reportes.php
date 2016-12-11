@@ -112,6 +112,12 @@ class Reportes extends CI_Controller {
             $portafolioslight = $this->reduceArray($portafoliosresults);
             
             array_unshift($portafolioslight ,$result);
+        }else{
+            $portafoliosresults = $this->Resultados_Model->get_last_result_bydateasc($p_portafolios,60);
+            
+            $portafolioslight = $this->reduceArray($portafoliosresults);
+            
+            array_unshift($portafolioslight ,$result);
         }
         echo json_encode($portafolioslight , JSON_NUMERIC_CHECK);  ;
         
