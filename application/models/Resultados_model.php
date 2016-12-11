@@ -190,5 +190,46 @@ class Resultados_model extends CI_Model{
         $query = $this->db->get();
         return $query->num_rows();
     }
+    
+    public function get_last_results($p_portafolios,$p_order, $p_resultnumber=null){
+        
+        $this->db->select('portafolios.nombre,resultados.valor,resultados.fecha');
+        $this->db->from('resultados');
+        $this->db->join('portafolios', 'resultados.portafolios = portafolios.idportafolios');
+        if ($p_portafolios != NULL) {
+            $this->db->where('portafolios', $p_portafolios);
+        }
+        
+        $this->db->order_by("fecha",$p_order);
+        if($p_resultnumber != NULL){
+            $this->db->limit($p_resultnumber);
+        }else{
+            $this->db->limit(2);
+        }
+        
+        
+        $query = $this->db->get();
+        return $query->result();
+        
+    }
+    
+    
+    public function get_last_result_bydateasc($p_portafolios,$p_resultnumber){
+        $string = '* 
+            from 
+                    (select * 
+                            from resultados 
+                    inner join portafolios
+                    on resultados.portafolios = portafolios.idportafolios
+                    where portafolios = %d 
+                    order by fecha desc limit %d
+                 ) 
+            resultados 
+            order by resultados.fecha asc ';
+        $querystring = sprintf($string, $p_portafolios,$p_resultnumber);
+        $this->db->select($querystring);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
 }

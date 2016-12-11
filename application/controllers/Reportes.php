@@ -84,6 +84,39 @@ class Reportes extends CI_Controller {
        
     }
 
+        public function getLastResultsDaily(){
+        $portafolios_list = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios,nombre');
+        $results_list = array();
+        $obj = null;
+        $objval = null;
+        foreach ($portafolios_list as $portafolios){
+            $result = $this->Resultados_Model->get_last_results($portafolios->idportafolios,'DESC',2);
+           $valuechange = $this->calculateDailyChange($result);
+           $obj[0] = $portafolios->nombre;
+           $objval['v'] = $valuechange;
+           $objval['f']  = number_format($valuechange, 2).'%';
+           $obj[1] = $objval;
+            array_push($results_list,$obj);
+            
+        }
+       echo json_encode($results_list, JSON_NUMERIC_CHECK);
+        
+    }
+
+    public function getLastResultsByPortafolios($p_portafolios){
+        $portafolioslist = $this->Portafolios_Model->find_by_name($p_portafolios);
+        $result = array('Portafolios','Resultados');
+        if(count($portafolioslist)> 0){
+            $portafoliosresults = $this->Resultados_Model->get_last_result_bydateasc($portafolioslist[0]->idportafolios,60);
+            
+            $portafolioslight = $this->reduceArray($portafoliosresults);
+            
+            array_unshift($portafolioslight ,$result);
+        }
+        echo json_encode($portafolioslight , JSON_NUMERIC_CHECK);  ;
+        
+    }
+
     private function get_open($p_field, $p_month, $p_year, $p_portafolios) {
         
         
@@ -231,5 +264,41 @@ class Reportes extends CI_Controller {
         
         $var_seconds = $p_days_lapse * 24 * 60 * 60;
         return $var_seconds;
+    }
+    
+    private function calculateDailyChange($p_result = NULL){
+        $result_value  = null;
+        $ealies_result = NULL;
+        $oldest_result = NULL;
+        
+        if($p_result != NULL){
+            
+            foreach ($p_result as $result){
+                if($ealies_result == NULL){
+                    $ealies_result = $result->valor;
+                }else{
+                    $oldest_result = $result->valor;
+                }
+                
+            }
+            $result_value = (($ealies_result - $oldest_result)/$oldest_result)*100;
+        }
+        return $result_value;
+    }
+    
+    private function reduceArray($p_complex_array){
+        $array = array();
+        
+        foreach ($p_complex_array as $item){
+            //var_dump($item);
+            $arraytmp = array(
+                $item->fecha,
+                $item->valor
+            );
+            
+            array_push($array, $arraytmp);
+        }
+        
+        return $array;
     }
 }

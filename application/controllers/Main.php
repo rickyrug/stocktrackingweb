@@ -50,8 +50,11 @@ class Main extends CI_Controller{
     
     
     public function main_page(){
-        
-        $this->call_views('index/main_page');
+        $data = array(
+            'accionDaily'       => 'index.php?/Reportes/getLastResultsDaily',
+            'accionPerformance' => 'index.php?/Reportes/getLastResultsByPortafolios',
+        );
+        $this->call_views('index/main_page',$data);
         
     }
 
