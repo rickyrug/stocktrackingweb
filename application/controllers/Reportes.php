@@ -117,7 +117,7 @@ class Reportes extends CI_Controller {
             
             $portafolioslight = $this->reduceArray($portafoliosresults);
             
-            array_unshift($portafolioslight ,$result);
+               array_unshift($portafolioslight ,$result);
         }
         echo json_encode($portafolioslight , JSON_NUMERIC_CHECK);  ;
         

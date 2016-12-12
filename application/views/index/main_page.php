@@ -44,17 +44,19 @@
         
         $.get( url,function( rdata ) {
             var obj = jQuery.parseJSON( rdata );
-          var data = google.visualization.arrayToDataTable(obj);
+            var data = google.visualization.arrayToDataTable(obj);
 
-        var options = {
-          title: 'Kuspit Performance',
-          
-          legend: { position: 'bottom' }
-        };
 
-        var chart = new google.visualization.LineChart(document.getElementById('chartcurvs'));
+            var options = {
+              title: 'Kuspit Performance',
 
-        chart.draw(data, options);
+              legend: { position: 'bottom' },
+
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chartcurvs'));
+
+            chart.draw(data, options);
         });
         
         
