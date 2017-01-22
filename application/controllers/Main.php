@@ -13,6 +13,12 @@
  */
 class Main extends CI_Controller{
    
+    public function __construct() {
+        parent::__construct();
+        $this->load->model('security/User_model', '', TRUE);
+    }
+
+
     public function index() {
         
         
@@ -27,10 +33,10 @@ class Main extends CI_Controller{
           
            $user = $this->input->post('username');
            $psw  = $this->input->post('password');
-           $encpassdb = "8302302f643bd38450d8df45b9506e18dfda291d2b38b3ff4593ed537ca3cb6a2dc52664920a6bd943b59308f0d94cde10f27e13551dbab617f64dd1982b4d65WXRav8iOVthGCWKlifqSDlTrItf0OuXo6TjM711gV+c=";
-           $encpass = $this->encryption->decrypt($encpassdb);
+       //    $encpassdb = "8302302f643bd38450d8df45b9506e18dfda291d2b38b3ff4593ed537ca3cb6a2dc52664920a6bd943b59308f0d94cde10f27e13551dbab617f64dd1982b4d65WXRav8iOVthGCWKlifqSDlTrItf0OuXo6TjM711gV+c=";
+       //    $encpass = $this->encryption->decrypt($encpassdb);
            
-           if ($encpass === $psw){
+           if ($this->login($user, $psw)){
 //               echo 'login auth';
                 redirect('main/main_page', 'refresh');
            }
@@ -40,12 +46,27 @@ class Main extends CI_Controller{
         $this->load->view('index/login', $data);
     }
 
-    private function login(){
-        
-      echo  $this->encryption->encrypt('batmanyrobin.batichica,booxiaraña');
+    private function login($p_username,$p_pass){
+       $login = false;
+        $user = $this->User_model->find_by_name($p_username);
+       
+       if(count($user) > 0){
+           $decriptedpass = $this->encryption->decrypt($user[0]->password);
            
-//           $key = bin2hex($this->encryption->create_key(32));
-//        echo $key;
+           if($p_pass === $decriptedpass){
+               
+               $newdata = array(
+                    'username' => $user[0]->username,
+                    'logged_in' => TRUE
+                );
+                $this->session->set_userdata($newdata);
+               
+               $login = true;
+           }
+           
+       }
+       
+     return $login;
     }
     
     
@@ -53,6 +74,7 @@ class Main extends CI_Controller{
         $data = array(
             'accionDaily'       => 'index.php?/Reportes/getLastResultsDaily',
             'accionPerformance' => 'index.php?/Reportes/getLastResultsByPortafolios',
+            'username'          =>  $this->session->has_userdata()
         );
         $this->call_views('index/main_page',$data);
         
