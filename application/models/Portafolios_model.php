@@ -17,6 +17,7 @@ class Portafolios_model extends CI_Model{
     public $valorinicial;
     public $fechacreacion;
     public $portafoliospadre;
+    public $active;
     
     function __construct() {
         parent::__construct();
@@ -38,6 +39,7 @@ class Portafolios_model extends CI_Model{
     
     public function get_Portafolios_Model_fields($p_fields) {
          $this->db->select($p_fields);
+         $this->db->where('active','X');
          $query = $this->db->get('portafolios');
          return $query->result();
     }
@@ -48,6 +50,8 @@ class Portafolios_model extends CI_Model{
          $query = $this->db->get('portafolios');
          return $query->result();
     }
+    
+   
     
     public function find_by_id($p_Portafolios_Modelid) {
 
@@ -65,11 +69,11 @@ class Portafolios_model extends CI_Model{
     }
 
     public function insert_Portafolios_Model($p_nombre, $p_valorinicial,
-                                             $p_fechainicial,$p_portafolios_padre = null){
+                                             $p_fechainicial,$p_active,$p_portafolios_padre = null){
         $this->nombre = $p_nombre;
         $this->fechacreacion = $p_fechainicial;
         $this->valorinicial  = $p_valorinicial;
-        
+        $this->active        = $p_active;
         if($p_portafolios_padre != null){
             $this->portafoliospadre = $p_portafolios_padre;
         }
@@ -81,7 +85,7 @@ class Portafolios_model extends CI_Model{
     
     public function update_Portafolios_Model($p_idportafolios,$p_nombre=null, 
                                           $p_valorinicial=null,$p_fechainicial=null,
-                                          $p_portafolios_padre = null
+                                          $p_portafolios_padre = null,$p_active = null
             ){
         
         if($p_nombre != null){
@@ -96,6 +100,10 @@ class Portafolios_model extends CI_Model{
         
         if($p_portafolios_padre != null){
             $this->portafoliospadre = $p_portafolios_padre;
+        }
+        
+        if($p_active != null){
+            $this->active = $p_active;
         }
         
          $this->db->update('portafolios',$this,array('idportafolios'=>$p_idportafolios));

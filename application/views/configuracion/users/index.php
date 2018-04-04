@@ -1,4 +1,5 @@
 <table id="tablalista" border="1" cellpadding="2" cellspacing="1" class="table table-hover">
+    <h1>{title}</h1>
     <tr>
         <th>ID</th>
         <th>Usuario</th>

@@ -14,9 +14,10 @@
         <td>{portafolios}</td>
         <td>{cantidad}</td>
         <td>{fecha}</td>
-        <td><a href="index.php?/retiros/show_editform/{idaportaciones}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>
-        <td><a href="index.php?/retiros/delete/{idaportaciones}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>
-
+        <!--<td><a href="index.php?/retiros/show_editform/{idaportaciones}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>
+        <td><a href="index.php?/retiros/delete/{idaportaciones}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>-->
+        <td><?php echo anchor('retiros/show_editform/{idaportaciones}','<span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>');?></td>
+        <td><?php echo anchor('retiros/delete/{idaportaciones}','<span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span>'); ?></td>
     </tr>
     {/retiros_list}
 </table>

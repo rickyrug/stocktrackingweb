@@ -11,7 +11,7 @@
  *
  * @author 60044723
  */
-class User extends CI_Controller {
+class User extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -50,7 +50,7 @@ class User extends CI_Controller {
             'accionchpass'=> 'index.php?/configuracion/user/change_password',
             'acciondlpass'=> 'index.php?/configuracion/user/delete_user'
         );
-
+        
         $this->call_views('configuracion/users/index', $data);
     }
 
@@ -124,17 +124,17 @@ class User extends CI_Controller {
         
     }
     
-    private function call_views($p_view, $p_data = null) {
-        $this->load->view('header');
-        if ($p_data == null) {
-            $this->load->view($p_view);
-        } else {
-            $this->parser->parse($p_view, $p_data);
-        }
-
-          $this->load->view('footer');
-    }
-    
+//    private function call_views($p_view, $p_data = null) {
+//        $this->load->view('header');
+//        if ($p_data == null) {
+//            $this->load->view($p_view);
+//        } else {
+//            $this->parser->parse($p_view, $p_data);
+//        }
+//
+//          $this->load->view('footer');
+//    }
+//    
     public function validate_password($p_password){
         
         $encpass = $this->encryption->decrypt($p_password);

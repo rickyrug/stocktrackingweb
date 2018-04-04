@@ -11,7 +11,7 @@
  *
  * @author rickyrug
  */
-class Reportes extends CI_Controller {
+class Reportes extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -42,19 +42,19 @@ class Reportes extends CI_Controller {
         $this->call_views('reportes/reporte', $data);
     }
 
-    private function call_views($p_view, $p_data = null) {
-        $this->load->view('header');
-        if ($p_data == null) {
-            $this->load->view($p_view);
-        } else {
-            $this->parser->parse($p_view, $p_data);
-        }
-
-        $this->load->view('footer');
-    }
+//    private function call_views($p_view, $p_data = null) {
+//        $this->load->view('header');
+//        if ($p_data == null) {
+//            $this->load->view($p_view);
+//        } else {
+//            $this->parser->parse($p_view, $p_data);
+//        }
+//
+//        $this->load->view('footer');
+//    }
 
     public function generate_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
-         
+        
           
         if ($p_portafolios == 0) {
            
@@ -64,6 +64,7 @@ class Reportes extends CI_Controller {
                 array_push($portafolios, $result->idportafolios);
             }
             $p_portafolios = $portafolios;
+           
         }else{
             $portafolios = array();
             array_push($portafolios, $p_portafolios);
@@ -85,18 +86,21 @@ class Reportes extends CI_Controller {
     }
 
         public function getLastResultsDaily(){
-        $portafolios_list = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios,nombre');
-        $results_list = array();
-        $obj = null;
-        $objval = null;
+        
+            $portafolios_list = $this->Portafolios_Model->get_parent_Portafolios_Model_fields('idportafolios,nombre');
+            $results_list = array();
+            $obj = null;
+            $objval = null;
+            
         foreach ($portafolios_list as $portafolios){
-            $result = $this->Resultados_Model->get_last_results($portafolios->idportafolios,'DESC',2);
+            
+           $result = $this->Resultados_Model->get_last_results($portafolios->idportafolios,'DESC',2);
            $valuechange = $this->calculateDailyChange($result);
            $obj[0] = $portafolios->nombre;
            $objval['v'] = $valuechange;
            $objval['f']  = number_format($valuechange, 2).'%';
            $obj[1] = $objval;
-            array_push($results_list,$obj);
+           array_push($results_list,$obj);
             
         }
        echo json_encode($results_list, JSON_NUMERIC_CHECK);
@@ -132,13 +136,13 @@ class Reportes extends CI_Controller {
         $valoropen = 0.0;
         
         if (count($p_portafolios) > 1) {
-            foreach ($p_portafolios as $portafolio) {
+//            foreach ($p_portafolios as $portafolio) {
 
-                $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
+                $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $this->getPortafoliosString($p_portafolios));
                 if (count($resultado) > 0) {
                     $valoropen = $valoropen + $resultado[0]->valueopen;
                 }
-            }
+//            }
         } else {
             $resultado = $this->Resultados_Model->get_value_open($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
             $valoropen = $resultado[0]->valueopen;
@@ -156,12 +160,12 @@ class Reportes extends CI_Controller {
         $valorclose = 0.0;
         
         if (count($p_portafolios) > 1) {
-            foreach ($p_portafolios as $portafolio) {
-                $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $portafolio);
+//            foreach ($p_portafolios as $portafolio) {
+                $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $this->getPortafoliosString($p_portafolios));
                 if (count($resultado) > 0) {
                 $valorclose = $valorclose + $resultado[0]->valueclose;  
                 }
-            }
+//            }
         } else {
             $resultado = $this->Resultados_Model->get_value_close($p_field, $var_fechainicial, $var_fechafinal, $p_portafolios);
             $valorclose = $resultado[0]->valueclose;
@@ -184,6 +188,7 @@ class Reportes extends CI_Controller {
 
     private function collect_data_candel($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios) {
    
+         $portafoliosList = implode(",", $p_portafolios);
         $candel_data = array();
         $var_open = 0.0;
         $var_close = 0.0;
@@ -192,10 +197,12 @@ class Reportes extends CI_Controller {
             $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $p_portafolios);
         } elseif (count($p_portafolios) > 1) {
             
-            foreach($p_portafolios as $portafolio){
-                $p_portalio_result = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $portafolio);
-                $results = $this->sum_data($p_portalio_result, $results);
-            }
+            $results = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $portafoliosList);
+            
+//            foreach($p_portafolios as $portafolio){
+//                $p_portalio_result = $this->Resultados_Model->get_max_min($p_field, $p_fechainicial, $p_fechafinal, $portafolio);
+//                $results = $this->sum_data($p_portalio_result, $results);
+//            }
             
 //            $results = $this->Resultados_Model->get_max_min_total($p_field, $p_fechainicial, $p_fechafinal,  implode(" ,", $p_portafolios) );
         }
@@ -306,5 +313,12 @@ class Reportes extends CI_Controller {
         }
         
         return $array;
+    }
+    
+    private function getPortafoliosString($p_portafoliosArray){
+        $var_portafolios = implode(",", $p_portafoliosArray);
+        
+        return $var_portafolios;
+        
     }
 }

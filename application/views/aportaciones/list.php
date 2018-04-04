@@ -15,9 +15,10 @@
         <td>{portafolios}</td>
         <td>{cantidad}</td>
         <td>{fecha}</td>
-        <td><a href="index.php?/aportacion/show_editform/{idaportaciones}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>
-        <td><a href="index.php?/aportacion/delete/{idaportaciones}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>
-        
+        <!--<td><a href="index.php?/aportacion/show_editform/{idaportaciones}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>
+        <td><a href="index.php?/aportacion/delete/{idaportaciones}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>-->
+        <td><?php echo anchor('aportacion/show_editform/{idaportaciones}','<span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>');?></td>
+        <td><?php echo anchor('aportacion/delete/{idaportaciones}','<span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span>') ?></td>
     </tr>
     {/aportaciones_list}
 

@@ -11,7 +11,7 @@
  *
  * @author rickyrug
  */
-class Resultados extends CI_Controller {
+class Resultados extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
@@ -101,15 +101,15 @@ class Resultados extends CI_Controller {
 //       
     }
 
-    private function call_views($p_view, $p_data) {
-        $this->load->view('header');
-        if ($p_data == null) {
-            $this->load->view($p_view);
-        } else {
-           $this->parser->parse($p_view, $p_data);
-        }
-        $this->load->view('footer');
-    }
+//    private function call_views($p_view, $p_data) {
+//        $this->load->view('header');
+//        if ($p_data == null) {
+//            $this->load->view($p_view);
+//        } else {
+//           $this->parser->parse($p_view, $p_data);
+//        }
+//        $this->load->view('footer');
+//    }
 
     public function delete($p_idresultado) {
        
@@ -138,8 +138,8 @@ class Resultados extends CI_Controller {
         $this->form_validation->set_rules('portafolios', 'Portafolios', 'required|callback_validate_portafolios');
         $this->form_validation->set_rules('fecha', 'Fecha', 'required');
         $this->form_validation->set_rules('valor', 'Valor', 'required');
-        $this->form_validation->set_rules('profit', 'Profit', 'required');
-        $this->form_validation->set_rules('rendimiento', 'Rendimiento', 'required');
+       // $this->form_validation->set_rules('profit', 'Profit', 'required');
+       // $this->form_validation->set_rules('rendimiento', 'Rendimiento', 'required');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -150,8 +150,8 @@ class Resultados extends CI_Controller {
                 'valor' => $this->form_validation->set_value('valor'),
                 'portafolios' => $this->get_portafolios(),
                 'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
-                'profit' => $this->form_validation->set_value('profit'),
-                'rendimiento' => $this->form_validation->set_value('rendimiento'),
+                //'profit' => $this->form_validation->set_value('profit'),
+                //'rendimiento' => $this->form_validation->set_value('rendimiento'),
                 'base_url' => base_url()
             );
 
@@ -160,10 +160,11 @@ class Resultados extends CI_Controller {
             $p_fecha = $this->input->post('fecha');
             $p_portafolios = $this->input->post('portafolios');
             $p_valor = $this->input->post('valor');
-            $p_profit = $this->input->post('profit');
-            $p_rendimiento = $this->input->post('rendimiento');
+           // $p_profit = $this->input->post('profit');
+           // $p_rendimiento = $this->input->post('rendimiento');
 
-            $this->Resultados_Model->insert_resultados($p_fecha, $p_portafolios, $p_valor, $p_profit, $p_rendimiento);
+            //$this->Resultados_Model->insert_resultados($p_fecha, $p_portafolios, $p_valor, $p_profit, $p_rendimiento);
+            $this->Resultados_Model->insert_resultados($p_fecha, $p_portafolios, $p_valor);
             redirect('resultados/show_addform', 'refresh');
         }
 
@@ -174,8 +175,8 @@ class Resultados extends CI_Controller {
         $this->form_validation->set_rules('portafolios', 'Portafolios', 'required|callback_validate_portafolios');
         $this->form_validation->set_rules('fecha', 'Fecha', 'required');
         $this->form_validation->set_rules('valor', 'Valor', 'required');
-        $this->form_validation->set_rules('profit', 'Profit', 'required');
-        $this->form_validation->set_rules('rendimiento', 'Rendimiento', 'required');
+       // $this->form_validation->set_rules('profit', 'Profit', 'required');
+       // $this->form_validation->set_rules('rendimiento', 'Rendimiento', 'required');
         $this->form_validation->set_rules('idresultado', 'ID resultados', 'required');
         
          if ($this->form_validation->run() == FALSE) {
@@ -189,8 +190,8 @@ class Resultados extends CI_Controller {
                     'valor'               => $result[0]->valor,
                     'portafolios'         => $this->get_portafolios(),
                     'selectedPortafolios' => $result[0]->idportafolios,
-                    'profit'              => $result[0]->profit,
-                    'rendimiento'         => $result[0]->rendimiento,
+                  //  'profit'              => $result[0]->profit,
+                  //  'rendimiento'         => $result[0]->rendimiento,
                     'base_url' => base_url()
                 );
             } else {
@@ -202,8 +203,8 @@ class Resultados extends CI_Controller {
                 'valor'               => $this->form_validation->set_value('valor'),
                 'portafolios'         => $this->get_portafolios(),
                 'selectedPortafolios' => $this->form_validation->set_value('portafolios'),
-                'profit'              => $this->form_validation->set_value('profit'),
-                'rendimiento'         => $this->form_validation->set_value('rendimiento'),
+               // 'profit'              => $this->form_validation->set_value('profit'),
+                //'rendimiento'         => $this->form_validation->set_value('rendimiento'),
                 'base_url' => base_url()
             );
             }
@@ -213,14 +214,15 @@ class Resultados extends CI_Controller {
             $p_fecha = $this->input->post('fecha');
             $p_portafolios = $this->input->post('portafolios');
             $p_valor = $this->input->post('valor');
-            $p_profit = $this->input->post('profit');
-            $p_rendimiento = $this->input->post('rendimiento');
+           // $p_profit = $this->input->post('profit');
+           // $p_rendimiento = $this->input->post('rendimiento');
             $p_idresultados = $this->input->post('idresultado');
             
 
               
-                $this->Resultados_Model->update_resultados($p_idresultados, $p_fecha, $p_valor, $p_profit, $p_rendimiento, $p_portafolios);
-                redirect('resultados/show_list', 'refresh');
+            //    $this->Resultados_Model->update_resultados($p_idresultados, $p_fecha, $p_valor, $p_profit, $p_rendimiento, $p_portafolios);
+            $this->Resultados_Model->update_resultados($p_idresultados, $p_fecha, $p_valor, $p_portafolios);    
+            redirect('resultados/show_list', 'refresh');
             
         }
         

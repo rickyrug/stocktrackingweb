@@ -20,7 +20,7 @@
         <div id="chartcurvstotal"></div>
     </div>
 </div>
-<h3>{username}</h3>
+<h3><?php echo $username ?></h3>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     
 <script type="text/javascript">

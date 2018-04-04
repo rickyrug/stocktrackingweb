@@ -29,7 +29,7 @@ echo validation_errors();
     </div>
 </div>
 <div class="form-group">
-    <label for="inputPortafolios" class="col-sm-2 control-label">Portafolios</label>
+    <label for="inputPortafolios" class="col-sm-2 control-label">Portafolios Padre</label>
     <div class="col-sm-10">
         <?php
         if (isset($selectedPortafolios)) {
@@ -39,7 +39,22 @@ echo validation_errors();
         }
         ?>
     </div>
-</div> 
+</div>
+<div class="form-group">
+    <label for="inputEstatus" class="col-sm-2 control-label">Estatus</label>
+    <div class="col-sm-10">
+        <?php
+        
+            if($active){
+                echo form_checkbox('inputEstatus','X', TRUE);
+            }else{
+                echo form_checkbox('inputEstatus','X', FALSE);
+            }
+        
+        ?>
+       <!-- <input type="checkbox" name="inputEstatus" value="X" id="inputEstatus"/>-->
+    </div>
+</div>
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-lg btn-primary btn-block">Guardar</button>

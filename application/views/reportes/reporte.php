@@ -33,8 +33,8 @@
                         <span class="input-group-addon">Graficar:</span>
                         <select name="get_param" class="form-control">
                             <option>valor</option>
-                            <option>profit</option>
-                            <option>rendimiento</option>
+                           <!-- <option>profit</option>
+                            <option>rendimiento</option>-->
                         </select>
                     </div>
                     

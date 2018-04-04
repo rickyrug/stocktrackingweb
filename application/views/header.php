@@ -46,6 +46,16 @@ and open the template in the editor.
                         <li><?php echo anchor("portafolios",'Gestion Portafolios'); ?></li>
                         <li><?php echo anchor("resultados",'Gestion Resultados'); ?></li>
                         <li><?php echo anchor('reportes', 'Reportes') ?></li>
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><?php echo $username ?></a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </li>
                     </ul>
                     <form class="navbar-form navbar-right">
                         <input type="text" class="form-control" placeholder="Search...">

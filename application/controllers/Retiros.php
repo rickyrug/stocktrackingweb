@@ -11,7 +11,7 @@
  *
  * @author rickyrug
  */
-class Retiros extends CI_Controller {
+class Retiros extends MY_Controller {
    
 
     public function __construct() {
@@ -61,16 +61,16 @@ class Retiros extends CI_Controller {
 
     /* metodo utilitario que despliga las vistas completas, con header y foorter */
 
-    private function call_views($p_view, $p_data = null) {
-        $this->load->view('header');
-        if ($p_data == null) {
-            $this->load->view($p_view);
-        } else {
-            //  $this->load->view($p_view, $p_data);
-            $this->parser->parse($p_view, $p_data);
-        }
-        $this->load->view('footer');
-    }
+//    private function call_views($p_view, $p_data = null) {
+//        $this->load->view('header');
+//        if ($p_data == null) {
+//            $this->load->view($p_view);
+//        } else {
+//            //  $this->load->view($p_view, $p_data);
+//            $this->parser->parse($p_view, $p_data);
+//        }
+//        $this->load->view('footer');
+//    }
 
     /* Metodo para eliminar operación por id */
 

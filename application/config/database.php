@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   | the query builder class.
  */
 /*$active_group = 'default';*/
-$active_group = 'test';
+$active_group = 'testserver';
 $query_builder = TRUE;
 
 $db['default'] = 
@@ -102,6 +102,29 @@ $db['default'] =
                 'hostname' => 'localhost',
                 'username' => 'root',
                 'password' => '',
+                'database' => 'trackingstocks',
+                'dbdriver' => 'mysqli',
+                'dbprefix' => '',
+                'pconnect' => FALSE,
+                'db_debug' => (ENVIRONMENT !== 'production'),
+                'cache_on' => FALSE,
+                'cachedir' => '',
+                'char_set' => 'utf8',
+                'dbcollat' => 'utf8_general_ci',
+                'swap_pre' => '',
+                'encrypt' => FALSE,
+                'compress' => FALSE,
+                'stricton' => FALSE,
+                'failover' => array(),
+                'save_queries' => TRUE
+    )
+;
+ 
+  $db['testserver'] =   array(
+                
+                'hostname' => '192.168.1.67',
+                'username' => 'rickyrug',
+                'password' => 'rickyrug',
                 'database' => 'trackingstocks',
                 'dbdriver' => 'mysqli',
                 'dbprefix' => '',

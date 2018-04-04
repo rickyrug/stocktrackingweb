@@ -29,7 +29,7 @@ $config['base_url'] = 'http://localhost/stocktraking';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php?';
+$config['index_page'] = 'index.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ $config['index_page'] = 'index.php?';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']	= 'QUERY_STRING';
+$config['uri_protocol']	= 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +94,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = TRUE;
+$config['enable_hooks'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -364,7 +364,7 @@ $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = 'ci_sessions';
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;
+$config['sess_regenerate_destroy'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------

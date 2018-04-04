@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  *
  * @author 60044723
  */
-class Configuration extends CI_Controller {
+class Configuration extends MY_Controller {
 
     public function __construct() {
         parent::__construct();

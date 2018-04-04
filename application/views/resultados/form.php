@@ -35,7 +35,7 @@ echo validation_errors();
         <input type="text" class="form-control" id="valor" placeholder="Valor"  value="{valor}" name="valor">
     </div>
 </div>
-<div class="form-group">
+<!--<div class="form-group">
     <label for="profit" class="col-sm-2 control-label">Profit</label>
     <div class="col-sm-10">
         <input type="text" class="form-control" id="profit" placeholder="Profit" value="{profit}" name="profit">
@@ -46,7 +46,7 @@ echo validation_errors();
     <div class="col-sm-10">
         <input type="text" class="form-control" id="rendimiento" placeholder="Rendimiento" value="{rendimiento}" name="rendimiento">
     </div>
-</div>
+</div>-->
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-lg btn-primary btn-block">Guardar</button>

@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <th>Valor inicial</th>
         <th>Fecha creación</th>
         <th>Portafolios padre</th>
+        <th>Active</th>
         <th><?php echo anchor('portafolios/show_addform', '<span class="glyphicon glyphicon-plus" aria-hidden="true">Add</span>'); ?></th>
         <th>{resultados}</th>
     </tr>
@@ -20,9 +21,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <td>{valorinicial}</td>
         <td>{fechacreacion}</td>
         <td>{portafoliospadre}</td>
-        <td><a href="index.php?/portafolios/show_editform/{idportafolios}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>
-        <td><a href="index.php?/portafolios/delete/{idportafolios}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>
-        
+        <td>{active}</td>
+      <!--  <td><a href="index.php?/portafolios/show_editform/{idportafolios}"><span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span></a></td>-->
+        <td><?php echo anchor('portafolios/show_editform/{idportafolios}', '<span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>'); ?></td>
+      <!--  <td><a href="index.php?/portafolios/delete/{idportafolios}"><span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span></a></td>-->
+        <td><?php echo anchor('portafolios/delete/{idportafolios}', '<span class="glyphicon glyphicon-trash" aria-hidden="true">Borrar</span>'); ?></td>
     </tr>
     {/portafolios_list}
 
